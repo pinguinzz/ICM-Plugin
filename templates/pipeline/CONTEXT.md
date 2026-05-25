@@ -23,4 +23,4 @@ Takes a topic and produces a finished short-form video. Three stages, human revi
 
 ## Skills wired in
 
-(None yet. Add via `/ICM-new-tool`.)
+(None yet. Add via `/icm:new-tool`.)

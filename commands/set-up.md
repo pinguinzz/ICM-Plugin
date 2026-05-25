@@ -2,7 +2,7 @@
 description: Scaffold a new ICM workspace in the current folder (or a target folder). Prompts for blank vs assimilate, then pipeline vs workspaces. Wires up AGENTS.md + stubs + routing table.
 ---
 
-# /ICM-set-up
+# /icm:set-up
 
 Scaffold or convert a folder into an ICM workspace.
 
@@ -21,7 +21,7 @@ Scaffold or convert a folder into an ICM workspace.
    If `$ARGUMENTS` is empty, use the current working directory.
 
 3. **Branch on detection result:**
-   - If `is_icm_workspace: true` → tell the user the folder is already an ICM workspace and offer to run `/ICM-remap` or `/ICM-debloat` instead. Stop.
+   - If `is_icm_workspace: true` → tell the user the folder is already an ICM workspace and offer to run `/icm:remap` or `/icm:debloat` instead. Stop.
    - If the folder is empty (or has only the user's stray files): proceed to **blank scaffold**.
    - If the folder has content but no AGENTS.md: proceed to **assimilation**.
 
@@ -47,7 +47,7 @@ Scaffold or convert a folder into an ICM workspace.
       ```
       python "$SCRIPTS/icm_audit.py" "<target>"
       ```
-   g. Report: files created, what to edit next.
+   g. If the audit is clean: say "Workspace ready." followed by a one-line list of what to fill in next (e.g. identity fields in `AGENTS.md`). If the audit has errors, surface them.
 
 5. **Assimilation flow:**
    a. Walk the existing tree (use Glob / LS). Build a one-page summary of what's there.
@@ -56,7 +56,7 @@ Scaffold or convert a folder into an ICM workspace.
    d. Generate workspace / stage CONTEXT.md files from `templates/parts/workspace-CONTEXT.md` and `templates/parts/stage-CONTEXT.md`.
    e. Drop in the stub files from `templates/stubs/` if they don't exist.
    f. Do NOT move or rename any of the user's existing files. Only add the ICM scaffolding around them.
-   g. Run `icm_remap.py --write` and `icm_audit.py`. Report.
+   g. Run `icm_remap.py --write` and `icm_audit.py`. If the audit is clean: say "Workspace ready." If there are errors, surface them.
 
 ## Invariants
 

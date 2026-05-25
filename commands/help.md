@@ -2,7 +2,7 @@
 description: Answer methodology questions about ICM — layers, routing, stage contracts, conventions, when-to-use. Grounded in the plugin's docs, not paraphrased.
 ---
 
-# /ICM-help
+# /icm:help
 
 Answer ICM methodology questions using the plugin's documentation as the source of truth.
 
@@ -24,7 +24,7 @@ Answer ICM methodology questions using the plugin's documentation as the source 
 
 4. **Cite the source.** End each answer with the doc + section it came from. Example: "—from `docs/LAYERS.md`, §Reading order."
 
-5. **If the user is asking about how to DO something** (set up, debloat, add a tool), redirect them to the appropriate `/ICM-*` command rather than walking them through it manually.
+5. **If the user is asking about how to DO something** (set up, debloat, add a tool), redirect them to the appropriate `/icm:*` command rather than walking them through it manually.
 
 ## Args
 

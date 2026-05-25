@@ -5,7 +5,7 @@ You are inside the **ICM plugin source tree**, not an ICM workspace. This folder
 ## What this plugin ships
 
 - `skills/icm/SKILL.md` — the skill that auto-loads when an agent enters an ICM workspace.
-- `commands/ICM-*.md` — slash commands for setup, remap, debloat, tool authoring, help.
+- `commands/*.md` — slash commands for setup, remap, debloat, tool authoring, help (`/icm:<name>`).
 - `scripts/*.py` — Python helpers (stdlib only) that do the token-heavy structural work.
 - `templates/{pipeline,workspaces}/` — two populated example scaffolds the agent can copy.
 - `templates/parts/` — atomic templates (single CONTEXT.md, stub files, tool skill).

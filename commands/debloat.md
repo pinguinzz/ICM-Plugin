@@ -2,7 +2,7 @@
 description: Audit a folder for bloat (oversized CONTEXTs, dead outputs, duplicates, superseded drafts) and archive flagged items. Dry-run by default, archive (not delete) on confirmation.
 ---
 
-# /ICM-debloat
+# /icm:debloat
 
 Inspect a folder for bloat and propose what to archive. Nothing is deleted; flagged items move to `<workspace-root>/_archive/<timestamp>/` with a manifest.
 

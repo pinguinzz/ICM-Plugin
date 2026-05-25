@@ -65,7 +65,7 @@ No opaque binaries inside the workspace tree if avoidable. If a stage emits a bi
 
 ## 15. The structure documents itself
 
-`/ICM-remap` regenerates routing tables from the folder reality. If a folder isn't reachable from the routing table after a remap, it shouldn't be there. Use `/ICM-debloat` to clean it up.
+`/icm:remap` regenerates routing tables from the folder reality. If a folder isn't reachable from the routing table after a remap, it shouldn't be there. Use `/icm:debloat` to clean it up.
 
 ---
 

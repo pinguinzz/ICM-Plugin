@@ -10,7 +10,7 @@ A Claude Code plugin that ships:
 
 - 🗂️ **Two scaffold templates** — numbered pipeline (`01-research/` → `02-script/`...) or named workspaces (`script-lab/`, `production/`, ...).
 - 🤖 **A skill** that auto-loads when an agent enters an ICM workspace, so it knows the rules.
-- ⌨️ **Five slash commands** (`/ICM-set-up`, `/ICM-remap`, `/ICM-debloat`, `/ICM-new-tool`, `/ICM-help`).
+- ⌨️ **Five slash commands** (`/icm:set-up`, `/icm:remap`, `/icm:debloat`, `/icm:new-tool`, `/icm:help`).
 - 🐍 **Six Python helper scripts** (stdlib only) that do the token-heavy structural work, returning JSON the agent reasons over.
 - 📜 **Methodology docs** (LAYERS, CONVENTIONS, STAGE-CONTRACT, ROUTING) as the source of truth — no paraphrasing.
 - 🧪 **15 tests** that exercise the scripts against a real example workspace.
@@ -47,14 +47,12 @@ Full detail in [`docs/LAYERS.md`](docs/LAYERS.md).
 
 ```bash
 # In Claude Code:
-/plugin install /path/to/ICM-skill
-# or from a git repo:
-/plugin install <your-github-url>
+/plugin install https://github.com/pinguinzz/ICM-Plugin
 ```
 
 The plugin auto-registers:
 - the `icm` skill
-- the five `/ICM-*` slash commands
+- the five `/icm:*` slash commands
 
 ## Use it without Claude Code
 
@@ -62,20 +60,20 @@ The scripts and templates are plain files. Use them from any shell:
 
 ```bash
 # Scaffold a new ICM workspace from the pipeline template
-python ICM-skill/scripts/icm_scaffold.py --template pipeline --target ./my-workspace
+python icm-marketplace/scripts/icm_scaffold.py --template pipeline --target ./my-workspace
 
 # Detect / audit an existing workspace
-python ICM-skill/scripts/icm_detect.py ./my-workspace
-python ICM-skill/scripts/icm_audit.py ./my-workspace
+python icm-marketplace/scripts/icm_detect.py ./my-workspace
+python icm-marketplace/scripts/icm_audit.py ./my-workspace
 
 # Regenerate the routing table from current folder reality
-python ICM-skill/scripts/icm_remap.py ./my-workspace --write
+python icm-marketplace/scripts/icm_remap.py ./my-workspace --write
 
 # Propose archival of bloat (dry-run by default)
-python ICM-skill/scripts/icm_debloat.py ./my-workspace
+python icm-marketplace/scripts/icm_debloat.py ./my-workspace
 
 # Add a new skill (tool) and wire it into the routing table
-python ICM-skill/scripts/icm_register_tool.py \
+python icm-marketplace/scripts/icm_register_tool.py \
     --workspace ./my-workspace \
     --tool-name web-search \
     --tool-description "Search the web for sources" \
@@ -90,22 +88,22 @@ Any AGENTS.md-aware agent (Codex CLI, Cursor, others) can then enter the workspa
 
 | Command | What it does |
 |---|---|
-| `/ICM-set-up` | Scaffolds a new workspace OR assimilates an existing folder into the 5-layer structure. Asks: blank vs assimilate; pipeline vs workspaces. |
-| `/ICM-remap` | Walks the tree, regenerates the routing table in root `AGENTS.md`, validates pointer integrity. Dry-runs first; asks before writing. |
-| `/ICM-debloat` | Flags oversized CONTEXTs, dead outputs, duplicate references, superseded drafts. Archives (never deletes) on confirmation. |
-| `/ICM-new-tool` | Creates a new SKILL.md scoped to a workspace/stage and wires it into the relevant routing-table row. |
-| `/ICM-help` | Answers methodology questions grounded in the plugin's `docs/`. No paraphrasing. |
+| `/icm:set-up` | Scaffolds a new workspace OR assimilates an existing folder into the 5-layer structure. Asks: blank vs assimilate; pipeline vs workspaces. |
+| `/icm:remap` | Walks the tree, regenerates the routing table in root `AGENTS.md`, validates pointer integrity. Dry-runs first; asks before writing. |
+| `/icm:debloat` | Flags oversized CONTEXTs, dead outputs, duplicate references, superseded drafts. Archives (never deletes) on confirmation. |
+| `/icm:new-tool` | Creates a new SKILL.md scoped to a workspace/stage and wires it into the relevant routing-table row. |
+| `/icm:help` | Answers methodology questions grounded in the plugin's `docs/`. No paraphrasing. |
 
 ---
 
 ## Repo layout
 
 ```
-ICM-skill/
-├── plugin.json                 Claude Code plugin manifest
+icm-marketplace/
+├── .claude-plugin/plugin.json  Claude Code plugin manifest
 ├── AGENTS.md                   the plugin's own agent contract
 ├── skills/icm/SKILL.md         the skill that loads when entering an ICM workspace
-├── commands/                   five /ICM-* slash commands
+├── commands/                   five /icm:* slash commands
 ├── scripts/                    Python helpers (stdlib only)
 │   ├── _lib.py                 shared helpers
 │   ├── icm_detect.py
@@ -148,7 +146,7 @@ Expected: `Ran 15 tests in ~3s. OK`.
 - **Plain text is the only interface.**
 - **Layer 3 (references) is read-only during a run; Layer 4 (output) is the only write target.**
 - **Naming conventions replace databases.**
-- **The structure documents itself** — `/ICM-remap` regenerates routing from folder reality.
+- **The structure documents itself** — `/icm:remap` regenerates routing from folder reality.
 
 Full list: [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md) (15 rules).
 

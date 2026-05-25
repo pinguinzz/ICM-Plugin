@@ -39,7 +39,7 @@ The routing table is the **only** orchestration the system needs. No code. No fr
 - A reference file is added → update column 3 for the relevant rows.
 - A skill is wired in → update column 4.
 
-Run `/ICM-remap` to regenerate the table from current folder reality. The script reads what's actually on disk and rewrites the table.
+Run `/icm:remap` to regenerate the table from current folder reality. The script reads what's actually on disk and rewrites the table.
 
 ## Anti-patterns
 

@@ -30,4 +30,4 @@ description: {{ONE_LINE_DESCRIPTION_TRIGGERS_THIS_SKILL}}
 
 ## Wired into
 
-This tool is registered in `{{WORKSPACE_PATH}}/CONTEXT.md` under the Routing table. Use `/ICM-remap` if you move it.
+This tool is registered in `{{WORKSPACE_PATH}}/CONTEXT.md` under the Routing table. Use `/icm:remap` if you move it.

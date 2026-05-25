@@ -2,7 +2,7 @@
 description: Regenerate routing tables and validate pointer integrity for an ICM workspace. Dry-runs first, asks for confirmation, then writes.
 ---
 
-# /ICM-remap
+# /icm:remap
 
 Walk the workspace, find all stages and named workspaces, regenerate the routing table in root `AGENTS.md`, validate that every pointer resolves.
 
@@ -37,7 +37,9 @@ Walk the workspace, find all stages and named workspaces, regenerate the routing
    python "$SCRIPTS/icm_remap.py" "$ARGUMENTS" --write
    ```
 
-7. **Report**: rows changed, audit summary (errors / warnings), and any follow-up actions (e.g. "stage X has no CONTEXT.md — run `/ICM-set-up` on that folder").
+7. **Report**:
+   - If the audit is clean: say only "Maps updated." (one line).
+   - If the audit has errors or warnings: surface each issue with path and reason, then list any follow-up actions (e.g. "stage X has no CONTEXT.md — run `/icm:set-up` on that folder").
 
 ## Invariants
 

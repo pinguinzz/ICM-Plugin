@@ -38,7 +38,7 @@ If you have the `icm` skill loaded, you already know the rules. If not, read `do
 
 ## Maintenance
 
-- Structure changed? Run `/ICM-remap`.
-- Folder feels heavy? Run `/ICM-debloat <path>`.
-- Need a new tool? Run `/ICM-new-tool`.
-- Have a question? Run `/ICM-help`.
+- Structure changed? Run `/icm:remap`.
+- Folder feels heavy? Run `/icm:debloat <path>`.
+- Need a new tool? Run `/icm:new-tool`.
+- Have a question? Run `/icm:help`.

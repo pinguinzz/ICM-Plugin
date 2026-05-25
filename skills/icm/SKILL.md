@@ -1,6 +1,6 @@
 ---
 name: icm
-description: Use whenever you enter a folder that follows the Interpretable Context Methodology (ICM) — recognizable by an `AGENTS.md` or `CONTEXT.md` at the root, numbered `stages/` folders, or a `_config/` + `shared/` pair. Also triggers when the user asks to set up, audit, remap, debloat, or extend an ICM workspace, or mentions "ICM", "folder architecture", "stage contract", or "routing table". This skill loads the 5-layer context rules, the conventions every agent must follow, and surfaces the `/ICM-*` slash commands.
+description: Use whenever you enter a folder that follows the Interpretable Context Methodology (ICM) — recognizable by an `AGENTS.md` or `CONTEXT.md` at the root, numbered `stages/` folders, or a `_config/` + `shared/` pair. Also triggers when the user asks to set up, audit, remap, debloat, or extend an ICM workspace, or mentions "ICM", "folder architecture", "stage contract", or "routing table". This skill loads the 5-layer context rules, the conventions every agent must follow, and surfaces the `/icm:*` slash commands.
 ---
 
 # ICM — Interpretable Context Methodology
@@ -12,7 +12,7 @@ You are operating inside (or about to operate on) an ICM workspace. ICM replaces
 1. Read the workspace's root `AGENTS.md`. It is the contract.
 2. Read the `Routing` table in that file. Match the user's request to a row.
 3. Go to the folder named in `Go to`. Read the files in `Read`. Do not load anything else.
-4. If you are about to modify the structure (move folders, rename stages, add files outside `output/`), STOP and call `/ICM-remap` or ask the user.
+4. If you are about to modify the structure (move folders, rename stages, add files outside `output/`), STOP and call `/icm:remap` or ask the user.
 
 ## The five layers (memorize)
 
@@ -46,11 +46,11 @@ When the situation calls for it, invoke a slash command rather than doing the wo
 
 | Command | When to invoke |
 |---|---|
-| `/ICM-set-up` | The folder is not yet an ICM workspace, or the user asks to scaffold one. |
-| `/ICM-remap` | The structure has changed (folder added, renamed, deleted) or the routing table looks stale. |
-| `/ICM-debloat` | A folder feels heavy — oversized CONTEXTs, dead outputs, naming violations. |
-| `/ICM-new-tool` | The user needs a new reusable capability (skill) wired into a specific workspace/stage. |
-| `/ICM-help` | The user asks a methodology question ("what's a stage contract", "where do voice files go"). |
+| `/icm:set-up` | The folder is not yet an ICM workspace, or the user asks to scaffold one. |
+| `/icm:remap` | The structure has changed (folder added, renamed, deleted) or the routing table looks stale. |
+| `/icm:debloat` | A folder feels heavy — oversized CONTEXTs, dead outputs, naming violations. |
+| `/icm:new-tool` | The user needs a new reusable capability (skill) wired into a specific workspace/stage. |
+| `/icm:help` | The user asks a methodology question ("what's a stage contract", "where do voice files go"). |
 
 Do not invoke commands speculatively. Invoke when the trigger condition is clearly met.
 
@@ -64,7 +64,7 @@ Do not invoke commands speculatively. Invoke when the trigger condition is clear
 
 ## When the user asks a methodology question
 
-Invoke `/ICM-help`. Don't paraphrase the docs from memory — load them.
+Invoke `/icm:help`. Don't paraphrase the docs from memory — load them.
 
 ## What this skill is not
 

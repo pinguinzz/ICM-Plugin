@@ -2,7 +2,7 @@
 description: Create a new tool (skill) inside the current ICM workspace and wire it into the routing table. Like /skill-creator but ICM-aware.
 ---
 
-# /ICM-new-tool
+# /icm:new-tool
 
 Author a new reusable skill scoped to this workspace, place it in the right folder, and register it on the routing-table row that should use it.
 
@@ -18,7 +18,7 @@ Author a new reusable skill scoped to this workspace, place it in the right fold
    ```
    python "$SCRIPTS/icm_detect.py" .
    ```
-   If not an ICM workspace, stop and suggest `/ICM-set-up`.
+   If not an ICM workspace, stop and suggest `/icm:set-up`.
 
 3. **Gather inputs from the user (AskUserQuestion, batch where possible):**
    - **Name** of the tool (short, kebab-case). Example: `web-search`, `humanizer`, `image-prep`.
@@ -51,7 +51,7 @@ Author a new reusable skill scoped to this workspace, place it in the right fold
    python "$SCRIPTS/icm_remap.py" <workspace-root> --write
    ```
 
-7. **Run audit** and report. If audit shows issues with the newly wired row, fix them with the user before declaring done.
+7. **Run audit.** If clean: say "Tool registered." If the audit shows issues with the newly wired row, surface them and fix with the user before declaring done.
 
 ## Invariants
 

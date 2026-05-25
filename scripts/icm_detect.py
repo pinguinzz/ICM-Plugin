@@ -45,7 +45,7 @@ def main() -> int:
     if not is_icm:
         result["reason"] = (
             "No AGENTS.md / CLAUDE.md / GEMINI.md / .cursorrules found at this folder "
-            "or any ancestor. Run /ICM-set-up to scaffold."
+            "or any ancestor. Run /icm:set-up to scaffold."
         )
         emit_json(result)
         return 2

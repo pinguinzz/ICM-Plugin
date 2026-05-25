@@ -53,4 +53,4 @@ A solo content creator producing short-form educational content across YouTube, 
 
 ## Maintenance
 
-`/ICM-remap` · `/ICM-debloat` · `/ICM-new-tool` · `/ICM-help`
+`/icm:remap` · `/icm:debloat` · `/icm:new-tool` · `/icm:help`

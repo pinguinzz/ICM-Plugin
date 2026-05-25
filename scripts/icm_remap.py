@@ -53,7 +53,7 @@ def build_rows(root: Path) -> list[RoutingRow]:
 
     if not stages and not workspaces:
         rows.append(RoutingRow(
-            task="(no stages or workspaces yet — run /ICM-set-up)",
+            task="(no stages or workspaces yet — run /icm:set-up)",
             go_to="—",
             read="—",
             skills="—",
