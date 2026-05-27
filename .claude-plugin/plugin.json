@@ -1,6 +1,6 @@
 {
   "name": "icm",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Folder-as-architecture for AI agents. Replaces multi-agent frameworks with a 5-layer filesystem contract any agent can read, navigate, and extend safely. Ships scaffolds, an audit/remap/debloat toolchain, and a tool registry.",
   "author": {
     "name": "Leo"
