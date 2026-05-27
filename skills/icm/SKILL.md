@@ -14,6 +14,21 @@ You are operating inside (or about to operate on) an ICM workspace. ICM replaces
 3. Go to the folder named in `Go to`. Read the files in `Read`. Do not load anything else.
 4. If you are about to modify the structure (move folders, rename stages, add files outside `output/`), STOP and call `/icm:remap` or ask the user.
 
+## Detecting nested ICM
+
+ICM workspaces can be nested. The "real" entry-point `AGENTS.md` may be ABOVE your CWD.
+
+When you enter a workspace:
+
+1. Start at CWD. Is there an `AGENTS.md`? If yes — read it.
+2. **Also look above:** is there an `AGENTS.md` in the parent? If yes — THAT is the real entry-point.
+   Read the parent first, then the nested one.
+3. If two `AGENTS.md` exist at different levels, the higher one routes between
+   sub-workspaces; the lower one routes between stages inside the selected sub-workspace.
+
+Operating on the nested `AGENTS.md` without reading the parent is a recurring bug — it
+loses meta-level context (cross-workspace routing, shared Layer 3 references, parent-scoped operator memory).
+
 ## The five layers (memorize)
 
 | Layer | File | Job |
