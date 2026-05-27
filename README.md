@@ -9,7 +9,7 @@
 A Claude Code plugin that ships:
 
 - 🗂️ **Two scaffold templates** — numbered pipeline (`01-research/` → `02-script/`...) or named workspaces (`script-lab/`, `production/`, ...).
-- 🤖 **A skill** that auto-loads when an agent enters an ICM workspace, so it knows the rules.
+- 🤖 **Three skills** that auto-load by context (entering an ICM workspace, designing a multi-stage pipeline with review gates, dispatching a reviewer subagent).
 - ⌨️ **Five slash commands** (`/icm:set-up`, `/icm:remap`, `/icm:debloat`, `/icm:new-tool`, `/icm:help`).
 - 🐍 **Six Python helper scripts** (stdlib only) that do the token-heavy structural work, returning JSON the agent reasons over.
 - 📜 **Methodology docs** (LAYERS, CONVENTIONS, STAGE-CONTRACT, ROUTING) as the source of truth — no paraphrasing.
@@ -51,7 +51,7 @@ Full detail in [`docs/LAYERS.md`](docs/LAYERS.md).
 ```
 
 The plugin auto-registers:
-- the `icm` skill
+- three skills (`icm`, `new-pipeline`, `dispatch-subagent`)
 - the five `/icm:*` slash commands
 
 ## Use it without Claude Code
@@ -84,6 +84,14 @@ Any AGENTS.md-aware agent (Codex CLI, Cursor, others) can then enter the workspa
 
 ---
 
+## Skills
+
+| Skill | Purpose |
+|---|---|
+| `icm:icm` | Main meta-skill — auto-loads on entering an ICM workspace. Carries the 5-layer rules, invariants, stage contract, and reviewer cross-room marker pattern. Detects nested ICM (workspace inside meta-workspace) so the agent reads the parent `AGENTS.md` first. |
+| `icm:new-pipeline` | Pattern for multi-stage pipelines with granular review gates (configurable per gate: `human` / `auto` / `agent`). Covers sub-staged stages, sidecar `revisao.json`, granular rejection that doesn't cascade, think-vs-execute contract, plan-before-generate, tier-based cost control, and subagent dispatch. Use when `/icm:set-up pipeline` is too simple for your workflow. |
+| `icm:dispatch-subagent` | Generic subagent dispatch for auto-review pre-pass. Tier-aware model selection (haiku/sonnet/opus) based on `retorno_esperado`. Subagent reads via absolute paths, writes only `revisao_provisoria.md` (transitory), then main agent applies/discards and records in sidecar. |
+
 ## Slash commands
 
 | Command | What it does |
@@ -102,7 +110,10 @@ Any AGENTS.md-aware agent (Codex CLI, Cursor, others) can then enter the workspa
 icm-marketplace/
 ├── .claude-plugin/plugin.json  Claude Code plugin manifest
 ├── AGENTS.md                   the plugin's own agent contract
-├── skills/icm/SKILL.md         the skill that loads when entering an ICM workspace
+├── skills/
+│   ├── icm/SKILL.md            main meta-skill — auto-loads on entering an ICM workspace
+│   ├── new-pipeline/SKILL.md   pattern for multi-stage pipelines with granular review gates
+│   └── dispatch-subagent/SKILL.md  generic subagent dispatch for auto-review pre-pass
 ├── commands/                   five /icm:* slash commands
 ├── scripts/                    Python helpers (stdlib only)
 │   ├── _lib.py                 shared helpers
