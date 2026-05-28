@@ -7,7 +7,7 @@ description: Generic ICM-aware subagent dispatch. MVP supports type "reviewer" (
 
 ## When to invoke
 
-A main agent (writer, editor, or any stage-level executor) wants **auto-review** before creating an `_aguardando_revisao` marker for the human. Typical cases:
+A main agent (writer, editor, or any room-level executor) wants **auto-review** before creating an `_aguardando_revisao` marker for the human. Typical cases:
 
 - `retorno_esperado >= alto` (or the equivalent high-value tier from the workspace's `config.json`) — worth spending a reviewer to pre-validate.
 - Self-assessment is low (the agent senses a gap in the output).
@@ -16,7 +16,7 @@ A main agent (writer, editor, or any stage-level executor) wants **auto-review**
 ## Do NOT invoke if:
 
 - You are a subagent yourself (subagents do not call subagents).
-- You are not at a clear sub-stage transition (auto-review only makes sense AFTER generating the output, BEFORE marking `_aguardando_revisao`).
+- You are not at a clear sub-room transition (auto-review only makes sense AFTER generating the output, BEFORE marking `_aguardando_revisao`).
 
 ## Args (infer from context)
 
@@ -26,7 +26,7 @@ A main agent (writer, editor, or any stage-level executor) wants **auto-review**
   - high tier → `sonnet`
   - critical tier → `opus`
   - Manual override allowed if you sense you need more (or less) depth.
-- `alvo` — absolute path of the sub-stage output to review (e.g. `<workspace>/<stages-root>/<stage>/<unit>/<sub_n>/`).
+- `alvo` — absolute path of the sub-room output to review (e.g. `<workspace>/<rooms-root>/<room>/<unit>/<sub_n>/`).
 
 ## Process (executed by the main agent)
 
@@ -37,14 +37,14 @@ You are an ICM-aware reviewer subagent, model {model}.
 
 CONTEXT:
 - Workspace: {workspace name from AGENTS.md identity}
-- You were dispatched by a main agent operating in an ICM stage room.
+- You were dispatched by a main agent operating in an ICM room room.
 - Mission: review the output at <alvo absolute path>.
 
 INPUTS (read all):
 - {workspace_root}/AGENTS.md
 - Layer 3 identity files relevant to this output (paths passed by the main agent)
 - Global Layer 0 memory file if the workspace defines one
-- Top-K filtered learnings from the stage's `memoria/learnings.jsonl`
+- Top-K filtered learnings from the room's `memoria/learnings.jsonl`
 - The TARGET in <alvo absolute path>
 
 OUTPUT:
@@ -56,7 +56,7 @@ MECHANICAL CONSTRAINTS (CRITICAL):
 - YOU ARE NOT THE MAIN AGENT. You are transitory.
 - DO NOT create any junction (`campanha-em-foco-<id>/` or any other instance pointer). Read everything via absolute paths.
 - DO NOT write any marker (`_concluido`, `_rejeitado`, `_aguardando_revisao`).
-- DO NOT update `_stage.json`, `learnings.jsonl`, `preferencias.md`, or any memory artifact.
+- DO NOT update `_room.json`, `learnings.jsonl`, `preferencias.md`, or any memory artifact.
 - DO NOT invoke `icm-compact`.
 - DO NOT invoke `dispatch-subagent` (no recursive dispatch).
 - Only output: the `revisao_provisoria.md`. Terminate by returning "review complete".
@@ -97,5 +97,5 @@ MECHANICAL CONSTRAINTS (CRITICAL):
 
 ## Related
 
-- `icm:new-pipeline` — the broader pattern this skill fits into (multi-stage pipelines with granular review gates, sidecar `revisao.json`, tier-aware execution).
+- `icm:new-pipeline` — the broader pattern this skill fits into (multi-room pipelines with granular review gates, sidecar `revisao.json`, tier-aware execution).
 - `icm:icm` — the main meta-skill (loaded on entering any ICM workspace).

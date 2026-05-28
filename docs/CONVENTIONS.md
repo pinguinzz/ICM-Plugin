@@ -2,54 +2,60 @@
 
 Every agent that enters an ICM workspace MUST follow these rules. They are the load-bearing invariants. Breaking them turns the workspace into a normal messy folder.
 
-## 1. One stage, one job
+## 1. One room, one job
 
-A stage does exactly one transformation. If a stage does two things, split it.
+A room does exactly one transformation. If a room does two things, split it.
 
 ## 2. Plain text is the only interface
 
-Stages communicate via markdown and JSON files. No databases. No in-memory state. If it isn't on disk, it doesn't exist.
+rooms communicate via markdown and JSON files. No databases. No in-memory state. If it isn't on disk, it doesn't exist.
 
-## 3. Numbered stages encode execution order
+## 3. Numbered rooms encode execution order
 
-`stages/01-research/`, `stages/02-script/`, `stages/03-production/`. The number is part of the contract. To reorder, rename. (Workspaces template uses named folders instead — see `docs/LAYERS.md`.)
+`rooms/01-research/`, `rooms/02-script/`, `rooms/03-production/`. The number is part of the contract.
+To reorder, rename. (Workspaces template uses named folders instead — see `docs/LAYERS.md`.)
 
-## 4. Every stage has a CONTEXT.md
+## 4. Every room has a CONTEXT.md
 
-The stage contract: Inputs → Process → Outputs. No CONTEXT.md, no stage. See `docs/STAGE-CONTRACT.md`.
+The room contract: Inputs → Process → Outputs. No CONTEXT.md, no room. See `docs/ROOM-CONTRACT.md`.
 
 ## 5. Layer 3 (`references/`) is read-only during a run
 
-Reference material is the factory. Don't edit it while producing the product. Edit between runs, not during.
+Reference material is the HowtoWork. Don't edit it while working the product.
+Edit between runs, not during.
 
 ## 6. Layer 4 (`output/`) is the only write target
 
-A stage writes to its own `output/` and nowhere else. It never writes into another stage's folders.
+A room writes to its own `output/` and nowhere else.
+It never writes into another room's folders.
 
 ## 7. Handoffs happen via copy or pointer, not by mutation
 
-Stage N+1 reads stage N's `output/`. It does not modify it. If it needs a different shape, it transforms on read.
+room N+1 reads room N's `output/`. It does not modify it.
+If it needs a different shape, it transforms on read.
 
 ## 8. Naming conventions replace databases
 
 - Drafts: `topic_draft.md`
 - Versions: `topic_v2.md`, `topic_v3.md`
 - Dated artifacts: `YYYY-MM-DD_topic.md` or `YYYY-MM_topic.md`
-- Stage prefixes: `01-`, `02-`, `03-` (zero-padded)
+- room prefixes: `01-`, `02-`, `03-` (zero-padded)
 
 Pick the conventions for your project, document them in root `AGENTS.md`, and never deviate.
 
 ## 9. Root `AGENTS.md` carries the routing table
 
-The routing table is a markdown table: `Task | Go to | Read | Skills`. Every agent reads this before doing anything. See `docs/ROUTING.md`.
+The routing table is a markdown table: `Task | Go to`.
+Every agent reads this before doing anything. See`docs/ROUTING.md`.
 
 ## 10. Compatibility stubs are pointers, not content
 
-`CLAUDE.md`, `GEMINI.md`, `.cursorrules` — each is a one-liner pointing to `AGENTS.md`. Never duplicate content. One file, one fact.
+`CLAUDE.md`, `GEMINI.md`, `.cursorrules` — each is a one-liner pointing to `AGENTS.md`.
+Never duplicate content. One file, one fact.
 
-## 11. CLAUDE.md / AGENTS.md stays short
+## 11. AGENTS.md stays short
 
-Root contract under 50 lines. If it grows, move detail down into workspace or stage CONTEXT.md.
+Root contract under 50 lines. If it grows, move detail down into workspace or room CONTEXT.md.
 
 ## 12. Context files describe the work, not the agent
 
@@ -59,9 +65,9 @@ Root contract under 50 lines. If it grows, move detail down into workspace or st
 
 Skills (tools) belong in the workspace's `skills/` folder and are listed in that workspace's routing table. Never load every skill into every workspace.
 
-## 14. Every output is editable by a human
+## 14. Every output is editable by a human unless room contract says otherwise
 
-No opaque binaries inside the workspace tree if avoidable. If a stage emits a binary, also emit a markdown manifest describing what it is.
+No opaque binaries inside the workspace tree if avoidable. If a room emits a binary, also emit a markdown manifest describing what it is. Unless room contract explicitly says otherwise.
 
 ## 15. The structure documents itself
 
