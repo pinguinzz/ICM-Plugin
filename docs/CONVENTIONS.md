@@ -6,9 +6,10 @@ Breaking the invariants turns the workspace back into a normal messy folder.
 
 ## Invariants (hard — never break)
 
-1. **Five layers, fixed roles.** L0 `AGENTS.md` · L1 root `CONTEXT.md` · L2 every dept/room/sub-room
-   `CONTEXT.md` · L3 every `docs/` · L4 the product folder (`projects/` or a room-local `workbench-<id>/`).
-   Don't mix layers.
+1. **Five layers, fixed roles.** L0 `AGENTS.md` (what this place is + how to enter + base rules) · L1 root
+   `CONTEXT.md` (maps + routing — where to go) · L2 every dept/room/sub-room `CONTEXT.md` · L3 every
+   `docs/` · L4 the product folder (`projects/` or a room-local `workbench-<id>/`). Don't mix layers. The
+   **routing table lives in root `CONTEXT.md`** (departments carry their own in their `CONTEXT.md`).
 2. **Routing resolves.** Every routing target and every Inputs pointer points to a file/folder that exists.
 3. **`docs/` per node — NOT `docs-<name>/`.** Self-containment by nesting. (This overrides the flat-MWP
    `references/` convention.)

@@ -6,8 +6,8 @@ compression).
 
 | Layer | Name | Question it answers | File / Folder | Typical size | Changes |
 |---|---|---|---|---|---|
-| 0 | Frontdoor | Where am I? (identity + routing + base rules) | `AGENTS.md` at workspace root (+ stubs `CLAUDE.md`, `GEMINI.md`, `.cursorrules`) | ~800 tokens | Never (after setup) |
-| 1 | Reception | Where do I go? (workspace overview + routing) | `CONTEXT.md` at workspace root | ~300 tokens | Setup only |
+| 0 | Frontdoor | What is this place + how do I enter it? (identity + base rules) | `AGENTS.md` at workspace root (+ stubs `CLAUDE.md`, `GEMINI.md`, `.cursorrules`) | ~800 tokens | Never (after setup) |
+| 1 | Reception | Where do I go? (maps + routing + overview) | `CONTEXT.md` at workspace root | ~300 tokens | Setup only |
 | 2 | Rooms | What work do I do? (the contract) | `CONTEXT.md` in each department / room / sub-room | 200–500 tokens | Per node |
 | 3 | HowtoWork | What rules apply? (references + memory) | each `docs/` folder | 500–2k tokens | Between runs |
 | 4 | Product | What am I working on? (per-run artifacts) | `projects/` (or a room-local `workbench-<id>/`) | Variable | Every run |

@@ -47,7 +47,8 @@ agent would. You do **not** pre-load its context; the frontdoor protocol does.
 You are an ICM agent dispatched into this workspace, model {model}, mode {mode}.
 
 ENTRY (do this first):
-- Read {workspace_root}/AGENTS.md. Match your mission to a Routing row and navigate to {room}.
+- Read {workspace_root}/AGENTS.md, then root CONTEXT.md for routing. Match your mission to a Routing row
+  and navigate to {room}.
   Read that room's CONTEXT.md and load ONLY the Inputs it names. Find your own data and output target.
 
 MISSION:

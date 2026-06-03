@@ -11,8 +11,9 @@ where to go, what to read, and where to write. **Do not break the structure.**
 
 ## The three base rules (always)
 
-1. **Read `AGENTS.md` first.** It routes you: match your task → a Routing row → go to that `CONTEXT.md`
-   (department → room → sub-room). Load only what the room's **Inputs** name — not the whole tree.
+1. **Read `AGENTS.md` first** (what this place is + how to enter it), then root **`CONTEXT.md`** for the
+   routing table: match your task → a Routing row → go to that folder's `CONTEXT.md` (department → room →
+   sub-room). Load only what the room's **Inputs** name — not the whole tree.
 2. **Write only to your output target.** A room writes to its run folder (sequential:
    `projects/<run>/<this-room>/v<N>/`; parallel: `<this-room>/workbench-<id>/`) and its own `docs/memory/`.
    Never another room's or another run's folder. Never edit Layer 3 (`docs/`) during a run. Never hand-edit
@@ -22,8 +23,9 @@ where to go, what to read, and where to write. **Do not break the structure.**
 
 ## Before doing anything
 
-1. Read root `AGENTS.md`. 2. Match the request to a Routing row. 3. Go to the `Go to` folder, read its
-`CONTEXT.md`, load nothing else. 4. If it's a **department** (its own routing table), follow its row to
+1. Read root `AGENTS.md` (identity + base rules). 2. Read root `CONTEXT.md` and match the request to a
+Routing row. 3. Go to the `Go to` folder, read its `CONTEXT.md`, load nothing else. 4. If it's a
+**department** (its own routing table), follow its row to
 the room, then read the room's `CONTEXT.md`. 5. Load only the files the contract's **Inputs** name.
 6. Do the work; write to the **Outputs** location. 7. If the room's **Done-when** isn't met, say so — don't
 declare done early.
@@ -39,8 +41,8 @@ the nested `AGENTS.md` without reading the parent loses cross-workspace routing 
 
 | Layer | Name | File | Job |
 |---|---|---|---|
-| 0 | Frontdoor | root `AGENTS.md` (+ stubs `CLAUDE.md`/`GEMINI.md`/`.cursorrules`) | Identity, routing, base rules |
-| 1 | Reception | root `CONTEXT.md` | Workspace overview |
+| 0 | Frontdoor | root `AGENTS.md` (+ stubs `CLAUDE.md`/`GEMINI.md`/`.cursorrules`) | What this place is + how to enter + base rules |
+| 1 | Reception | root `CONTEXT.md` | Maps + routing (where to go) |
 | 2 | Rooms | each dept/room/sub-room `CONTEXT.md` | The contract |
 | 3 | HowtoWork | each `docs/` | Stable rules + memory — read-only during a run |
 | 4 | Product | `projects/<run>/...` or room-local `workbench-<id>/` | Per-run artifacts — your only write target |

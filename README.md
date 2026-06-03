@@ -31,8 +31,8 @@ agent navigates it, loading only the context relevant to the current step. No fr
 
 | Layer | File | Job |
 |---|---|---|
-| 0 | `AGENTS.md` (+ stubs `CLAUDE.md`/`GEMINI.md`/`.cursorrules`) | Identity, routing, base rules |
-| 1 | root `CONTEXT.md` | Workspace overview |
+| 0 | `AGENTS.md` (+ stubs `CLAUDE.md`/`GEMINI.md`/`.cursorrules`) | What this place is + how to enter + base rules |
+| 1 | root `CONTEXT.md` | Maps + routing (where to go) |
 | 2 | each dept/room/sub-room `CONTEXT.md` | The contract |
 | 3 | each `docs/` | Stable rules + memory — read-only during a run |
 | 4 | `projects/<run>/...` or room-local `workbench-<id>/` | Per-run artifacts — the only write target |

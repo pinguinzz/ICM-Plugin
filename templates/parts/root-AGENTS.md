@@ -1,8 +1,8 @@
 # {{PROJECT_NAME}} — Agent Contract (L0, frontdoor)
 
-You are entering an ICM workspace. Before any work:
-1. Read this file. 2. Read `CONTEXT.md` (the overview). 3. Match the request to a Routing row.
-4. Go to that folder, read its `CONTEXT.md`, load only what its **Inputs** name.
+You are entering an ICM workspace. This file says **what this place is and how to enter it**. Before any
+work: 1. Read this file. 2. Read `CONTEXT.md` — the **map + routing** (where to go). 3. Match the request
+to a Routing row there. 4. Go to that folder, read its `CONTEXT.md`, load only what its **Inputs** name.
 
 If you have the `icm` skill loaded you know the rules; otherwise read `docs/CONVENTIONS.md`.
 
@@ -12,17 +12,11 @@ If you have the `icm` skill loaded you know the rules; otherwise read `docs/CONV
 
 ## Base rules (always)
 
-1. **Read `AGENTS.md` first**, then the relevant `CONTEXT.md` (department → room → sub-room). Load only the
-   room's **Inputs**.
+1. **Read `AGENTS.md` first**, then root **`CONTEXT.md`** for routing, then the target `CONTEXT.md`
+   (department → room → sub-room). Load only the room's **Inputs**.
 2. **Write only to your output target** — your run folder + your own `docs/memory/`. Never another room's
    or run's folder; never edit Layer 3 during a run. Drop **markers**; a reconciler script owns machine state.
 3. **Never mutate structure.** Propose changes via `{{CR_PATH}}`; a human disposes.
-
-## Routing
-
-| Task | Go to |
-|------|-------|
-{{ROUTING_ROWS}}
 
 ## Naming conventions
 

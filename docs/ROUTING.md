@@ -1,7 +1,8 @@
 # Routing — the spine of an ICM workspace
 
-The routing table lives in the workspace's root `AGENTS.md`. It tells the agent: for THIS kind of task,
-go HERE. Departments and rooms can carry their own sub-routing tables in their `CONTEXT.md`.
+The routing table lives in the workspace's root **`CONTEXT.md`** (L1 = maps + where to go). Root
+`AGENTS.md` (L0) says what this place is and how to enter it, then points here. It tells the agent: for
+THIS kind of task, go HERE. Departments carry their own sub-routing tables in their `CONTEXT.md`.
 
 ## The shape
 
@@ -24,14 +25,14 @@ go HERE. Departments and rooms can carry their own sub-routing tables in their `
 
 ## How the agent uses it
 
-1. Reads `AGENTS.md`.
+1. Reads `AGENTS.md` (identity + base rules), then root `CONTEXT.md` (the routing table).
 2. Matches the user's request to a row.
 3. Moves its working context to the `Go to` folder and reads that folder's `CONTEXT.md`.
 4. If the target is a **department**, it has its own routing table — follow it to the actual room.
 
 ## Nested example (departments → rooms)
 
-A clustered workspace routes twice. Root `AGENTS.md`:
+A clustered workspace routes twice. Root `CONTEXT.md`:
 
 ```markdown
 | Produce a post (research → script → edit → package) | `dept-content/` |
