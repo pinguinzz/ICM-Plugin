@@ -1,9 +1,0 @@
-This folder uses the Interpretable Context Methodology (ICM).
-
-Before answering any question or making any change in this folder:
-
-1. Read `AGENTS.md` in this folder (it is the project's canonical agent contract).
-2. Follow its routing table and invariants exactly.
-3. If you would modify the folder structure (rename, move, delete), stop and surface the change first.
-
-`AGENTS.md` is the source of truth. This `.cursorrules` file just points you there.

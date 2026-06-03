@@ -30,4 +30,5 @@ description: {{ONE_LINE_DESCRIPTION_TRIGGERS_THIS_SKILL}}
 
 ## Wired into
 
-This tool is registered in `{{WORKSPACE_PATH}}/CONTEXT.md` under the Routing table. Use `/icm:remap` if you move it.
+Declared in this room's `tools.json` and vendored into `skills/`. Referenced from the room's `CONTEXT.md`
+**Skills** section.

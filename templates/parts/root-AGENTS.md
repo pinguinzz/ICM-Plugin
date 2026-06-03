@@ -1,28 +1,27 @@
-# {{PROJECT_NAME}} — Agent Contract
+# {{PROJECT_NAME}} — Agent Contract (L0, frontdoor)
 
-You are entering an ICM workspace. Before doing any work here:
+You are entering an ICM workspace. Before any work:
+1. Read this file. 2. Read `CONTEXT.md` (the overview). 3. Match the request to a Routing row.
+4. Go to that folder, read its `CONTEXT.md`, load only what its **Inputs** name.
 
-1. Read this entire file.
-2. Read the workspace overview in `CONTEXT.md`.
-3. Match the user's request to a row in the Routing table below.
-4. Go to the folder named in `Go to`. Read only the files in `Read`.
-
-If you have the `icm` skill loaded, you already know the rules. If not, read `docs/CONVENTIONS.md` (or the ICM plugin's `docs/CONVENTIONS.md` if installed).
+If you have the `icm` skill loaded you know the rules; otherwise read `docs/CONVENTIONS.md`.
 
 ## Identity
 
 {{PROJECT_DESCRIPTION}}
 
-## Folder structure
+## Base rules (always)
 
-```
-{{FOLDER_TREE}}
-```
+1. **Read `AGENTS.md` first**, then the relevant `CONTEXT.md` (department → room → sub-room). Load only the
+   room's **Inputs**.
+2. **Write only to your output target** — your run folder + your own `docs/memory/`. Never another room's
+   or run's folder; never edit Layer 3 during a run. Drop **markers**; a reconciler script owns machine state.
+3. **Never mutate structure.** Propose changes via `{{CR_PATH}}`; a human disposes.
 
 ## Routing
 
-| Task | Go to | Read | Skills |
-|------|-------|------|--------|
+| Task | Go to |
+|------|-------|
 {{ROUTING_ROWS}}
 
 ## Naming conventions
@@ -31,14 +30,10 @@ If you have the `icm` skill loaded, you already know the rules. If not, read `do
 
 ## Invariants you must not break
 
-- A stage writes ONLY to its own `output/`.
-- A stage NEVER edits another stage's folders.
-- A stage NEVER edits `references/`, `_config/`, or `shared/` during a run.
-- `CLAUDE.md`, `GEMINI.md`, `.cursorrules` are stubs pointing to this file. Do not put content in them.
+- A room writes ONLY to its own output target; NEVER another room's/run's folder.
+- A room NEVER edits Layer 3 (`docs/`) during a run.
+- `docs/` per node — never `docs-<name>/`. No emoji in names.
+- `CLAUDE.md` / `GEMINI.md` / `.cursorrules` are stubs pointing here — no content in them.
 
-## Maintenance
-
-- Structure changed? Run `/icm:remap`.
-- Folder feels heavy? Run `/icm:debloat <path>`.
-- Need a new tool? Run `/icm:new-tool`.
-- Have a question? Run `/icm:help`.
+Full list: `docs/CONVENTIONS.md`. Structural changes → `/icm:assimilate` (check) or a CR. New structure →
+`/icm:new`.

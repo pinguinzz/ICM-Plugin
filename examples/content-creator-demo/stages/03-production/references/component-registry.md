@@ -30,4 +30,4 @@ Props: `{ quote: string, attribution: string }`
 
 ## If you need a new component
 
-Add a row above and a stub Remotion component to the project. Update this file. Run `/icm:remap`.
+Add a row above and a stub Remotion component to the project. Update this file.

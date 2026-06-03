@@ -1,29 +1,24 @@
-# {{WORKSPACE_NAME}}
+# CONTEXT.md — {{WORKSPACE_NAME}} (L1, reception)
 
-## Purpose
+**Identity + base rules are in `AGENTS.md` — read it first.** This file is the overview, layer map, and
+(optionally) the routing table.
 
-{{ONE_SENTENCE_PURPOSE}}
+## How the work flows
 
-## What lives here
+{{HOW_WORK_FLOWS}}
 
-{{FOLDER_DESCRIPTION}}
+## Layers
 
-## When to enter this workspace
+- L0 root `AGENTS.md` — identity + routing + base rules
+- L1 this `CONTEXT.md` — overview
+- L2 each dept/room/sub-room `CONTEXT.md` — the contract
+- L3 each `docs/` — references + memory (read-only during a run)
+- L4 the product layer — `projects/<run>/...` (sequential) or a room-local `workbench-<id>/` (parallel)
 
-{{WHEN_TO_USE}}
+Conventions: `docs/CONVENTIONS.md`.
 
-## Process
+## Map
 
-1. {{STEP_1}}
-2. {{STEP_2}}
-3. {{STEP_3}}
-
-## References
-
-- `shared/` — voice, audience, conventions
-- `_config/` — brand, naming
-- `references/` (per-stage, if pipeline) — stage-specific stable rules
-
-## Outputs
-
-Per-run artifacts go in the appropriate `output/` (pipeline) or named folder (workspaces).
+```
+{{FOLDER_TREE}}
+```

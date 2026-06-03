@@ -1,122 +1,86 @@
 ---
 name: icm
-description: Use whenever you enter a folder that follows the Interpretable Context Methodology (ICM) — recognizable by an `AGENTS.md` or `CONTEXT.md` at the root, numbered department or room folders (`0-`, `1-`, `02.1-`...), or a `docs-<scope>/` factory layer. Also triggers when the user asks to set up, audit, remap, debloat, or extend an ICM workspace, or mentions "ICM", "folder architecture", "room contract", "department", "Pattern A/B", or "routing table". Loads the 5-layer rules, the conventions every agent must follow, and surfaces the `/icm:*` slash commands.
+description: Use whenever you enter a folder that follows the Interpretable Context Methodology (ICM) — recognizable by an `AGENTS.md` or `CONTEXT.md` at the root, numbered department or room folders (`0-`, `1-`, `02.1-`...), or a per-folder `docs/` factory layer. Also triggers when the user asks to set up, assimilate, audit, or extend an ICM workspace, or mentions "ICM", "folder architecture", "room contract", "department", "routing table", or "sub-room". Loads the 5-layer rules, the base rules every agent must follow, and the `/icm:new` + `/icm:assimilate` commands.
 ---
 
 # ICM — Interpretable Context Methodology
 
-You are operating inside (or about to operate on) an ICM workspace. ICM replaces multi-agent frameworks with filesystem structure. A single agent navigates a tree of folders and markdown files that tell it where to go, what to read, and where to write. **Do not break the structure.**
+You are operating inside (or about to operate on) an ICM workspace. ICM replaces multi-agent frameworks
+with filesystem structure: a single agent navigates a tree of folders and markdown files that tell it
+where to go, what to read, and where to write. **Do not break the structure.**
 
-## Before doing anything in this workspace
+## The three base rules (always)
 
-1. Read the workspace's root `AGENTS.md`. It is the contract.
-2. Read the `Routing` table in that file. Match the user's request to a row.
-3. Go to the folder named in `Go to`. Read its `CONTEXT.md`. Do not load anything else.
-4. If the folder is a **department** (has its own routing table in `CONTEXT.md`), follow its row to the actual **room** folder. Then read that room's `CONTEXT.md`.
-5. If you are about to modify the structure (move folders, rename rooms, add files outside the room's output target), STOP and call `/icm:remap` or ask the user.
+1. **Read `AGENTS.md` first.** It routes you: match your task → a Routing row → go to that `CONTEXT.md`
+   (department → room → sub-room). Load only what the room's **Inputs** name — not the whole tree.
+2. **Write only to your output target.** A room writes to its run folder (sequential:
+   `projects/<run>/<this-room>/v<N>/`; parallel: `<this-room>/workbench-<id>/`) and its own `docs/memory/`.
+   Never another room's or another run's folder. Never edit Layer 3 (`docs/`) during a run. Never hand-edit
+   machine state (`_state.json`/dashboard) — **drop markers** and let the reconciler script write state.
+3. **Never mutate structure.** Don't move/rename/add rooms or change a contract/routing mid-run. Propose
+   changes via the workspace's change-request inbox; a human disposes.
+
+## Before doing anything
+
+1. Read root `AGENTS.md`. 2. Match the request to a Routing row. 3. Go to the `Go to` folder, read its
+`CONTEXT.md`, load nothing else. 4. If it's a **department** (its own routing table), follow its row to
+the room, then read the room's `CONTEXT.md`. 5. Load only the files the contract's **Inputs** name.
+6. Do the work; write to the **Outputs** location. 7. If the room's **Done-when** isn't met, say so — don't
+declare done early.
 
 ## Detecting nested ICM
 
-ICM workspaces can be nested. The "real" entry-point `AGENTS.md` may be ABOVE your CWD.
+The real entry-point `AGENTS.md` may be ABOVE your CWD. Start at CWD; if there's an `AGENTS.md`, read it —
+but also look up: if a parent also has one, THAT is the real entry-point (read parent first, then the
+nested one). The higher routes between sub-workspaces/departments; the lower routes within. Operating on
+the nested `AGENTS.md` without reading the parent loses cross-workspace routing and shared Layer 3.
 
-When you enter a workspace:
-
-1. Start at CWD. Is there an `AGENTS.md`? If yes — read it.
-2. **Also look above:** is there an `AGENTS.md` in the parent? If yes — THAT is the real entry-point.
-   Read the parent first, then the nested one.
-3. If two `AGENTS.md` exist at different levels, the higher one routes between
-   sub-workspaces or departments; the lower one routes within.
-
-Operating on the nested `AGENTS.md` without reading the parent is a recurring bug — it
-loses meta-level context (cross-workspace routing, shared Layer 3 references, parent-scoped operator memory).
-
-## The five layers (memorize)
+## The five layers
 
 | Layer | Name | File | Job |
 |---|---|---|---|
-| 0 | **Frontdoor** | `AGENTS.md` (+ stubs `CLAUDE.md`, `GEMINI.md`, `.cursorrules`) | Global identity, routing |
-| 1 | **Reception** | root `CONTEXT.md` | Workspace overview (can be nested) |
-| 2 | **Rooms** | room or department `CONTEXT.md` | The contract: Inputs / Process / Outputs / Done-when / Boundaries / Skills |
-| 3 | **HowtoWork** | `docs-<scope>/`, `references/`, `_config/`, `shared/` | Stable rules — **read-only during a run** |
-| 4 | **Product** | `projects/<id>/`, `workbench-<id>/`, `output/`, `drafts/`, `builds/` | Per-run artifacts — the only place you write |
+| 0 | Frontdoor | root `AGENTS.md` (+ stubs `CLAUDE.md`/`GEMINI.md`/`.cursorrules`) | Identity, routing, base rules |
+| 1 | Reception | root `CONTEXT.md` | Workspace overview |
+| 2 | Rooms | each dept/room/sub-room `CONTEXT.md` | The contract |
+| 3 | HowtoWork | each `docs/` | Stable rules + memory — read-only during a run |
+| 4 | Product | `projects/<run>/...` or room-local `workbench-<id>/` | Per-run artifacts — your only write target |
 
-Full detail: see `docs/LAYERS.md` (sibling of this skill in the plugin).
+Full detail: `docs/LAYERS.md`.
 
-## Departments and rooms
+## Departments, rooms, sub-rooms
 
-A workspace can be flat (rooms directly under root) OR clustered into departments.
+A workspace can be flat (rooms under root) or clustered into **departments** (top-level numbered folders
+grouping rooms). A **room** is one capability; it may nest **sub-rooms** (`NN.n-<name>`) when a subprocess
+ramifies — recursion **by need**, no depth cap. `NN.0` is the QA / auto-review sub-room (runs last);
+`NN.1+` are productive. Each node has its own `CONTEXT.md` + `docs/`.
 
-- **Department** = top-level numbered folder (`0-`, `1-`, `2-`...) that groups related rooms. Has its own `CONTEXT.md` declaring the department's work pattern and routing.
-- **Room** = numbered folder containing one specialized capability. Has `CONTEXT.md` (the contract) + `docs-<roomname>/` (room-local factory) + `.claude/` (skill control via `skillOverrides`).
-- **Sub-process prefix `NN.1`** = a gate inside stage NN. Rejection at `NN.1` does NOT bump version — only NN's retry does.
+## Work patterns (each department declares one)
 
-Look at root `AGENTS.md` routing first. If a row points to a department, read its `CONTEXT.md` and follow its sub-routing.
+- **Sequential pipeline** — centralized `projects/<run>/<NN-room>/`; rooms hand off in order.
+- **Parallel pipeline** — room-local `workbench-<id>/`; capability rooms run independently, no fixed order.
 
-## Two work patterns (per department)
+## Invariants you may not break
 
-A department's `CONTEXT.md` declares which pattern it uses:
+Five layers fixed · routing resolves · `docs/` per node (NOT `docs-<name>/`) · product layer is the only
+write target · agents drop markers, a script owns state · no structure mutation without a CR · one-way
+cross-references · one canonical home per fact · stubs are pointers · no emoji in names. Full list +
+Guidelines: `docs/CONVENTIONS.md`. The room contract shape: `docs/ROOM-CONTRACT.md`.
 
-- **Pattern A — Centralized Projects.** Department has `projects/<id>/` at the top. Each project has per-room stage subfolders (`<id>/<NN-roomname>/v<N>/`). Used for sequential pipelines with handoffs.
-- **Pattern B — Room-Local Workbench.** Each room has its own `workbench-<workID>/`. Used for autonomous / parallel work without pipeline order.
+## Skill control per room (optional)
 
-Different departments in the same workspace can use different patterns.
+ICM workspaces often silence skills at root (`.claude/settings.local.json` → all `"off"`) and re-enable
+per room via `skillOverrides`, so an agent in a room sees only the skills it needs. Keeps context lean.
 
-## The invariants you may not break
-
-- A room writes ONLY to its own output target (Pattern A: `projects/<id>/<this-room>/`; Pattern B: `<this-room>/workbench-<id>/`).
-- A room NEVER edits another room's folders or another project's folders.
-- A room NEVER edits `docs-<scope>/`, `references/`, `_config/`, `shared/` during a run (Layer 3 is factory).
-- Naming conventions are documented in root `AGENTS.md` — follow them exactly.
-- Compatibility stubs (`CLAUDE.md`, `GEMINI.md`, `.cursorrules`) are one-liners pointing to `AGENTS.md`. Don't put content in them.
-- Emoji in folder/file names break tooling on some platforms. Don't introduce them.
-
-Full list: `docs/CONVENTIONS.md`.
-
-## The room contract
-
-Every room `CONTEXT.md` declares **Inputs**, **Process**, **Outputs**, **Done when**, **Hand-off**, **Boundaries**, and **Skills**. The room contract IS the room's `CONTEXT.md` — there is no separate contract file.
-
-If you're authoring or editing a room, follow the shape documented in `docs/ROOM-CONTRACT.md`.
-
-## Skill control per room
-
-ICM workspaces typically silence skills at workspace root and re-enable per room via `skillOverrides`:
-
-- Workspace `.claude/settings.local.json`: all user-scope skills set to `"off"` baseline.
-- Each room's `.claude/settings.local.json`: re-enables only what that room uses.
-
-Effect: autonomous agents in rooms that don't need a skill don't see it in the listing. Reduces token bloat.
-
-## Commands you may invoke
-
-When the situation calls for it, invoke a slash command rather than doing the work by hand. These exist to save tokens and prevent structural drift.
+## Commands
 
 | Command | When to invoke |
 |---|---|
-| `/icm:set-up` | The folder is not yet an ICM workspace, or the user asks to scaffold one (workspace, department, or room). |
-| `/icm:remap` | The structure has changed (folder added, renamed, deleted) or the routing table looks stale. |
-| `/icm:debloat` | A folder feels heavy — oversized CONTEXTs, dead outputs, naming violations, orphaned `docs-<scope>/` files. |
-| `/icm:new-tool` | The user needs a new reusable capability (skill) wired into a specific room. |
-| `/icm:help` | The user asks a methodology question ("what's a department", "where do voice files go", "Pattern A vs B"). |
+| `/icm:new` | Create new structure — a workspace, department, room, or sub-room. Backbone-locked intake; scaffolds into the fixed skeleton. |
+| `/icm:assimilate` | Convert an existing folder into ICM, **or** integrity-check an existing ICM workspace (read-only: grills the structure, reports, emits a plan). |
 
-Do not invoke commands speculatively. Invoke when the trigger condition is clearly met.
+Dispatching work to another room, or a review pre-pass, is the `dispatch-subagent` skill.
 
-## When the user asks you to do work
+## What this is not
 
-1. Read root `AGENTS.md`.
-2. Match request → row in Routing table.
-3. Navigate to the target. If it's a department, read its `CONTEXT.md` and follow its sub-routing.
-4. Read the destination room's `CONTEXT.md` (the contract).
-5. Load the files listed under Inputs.
-6. Do the work. Write outputs to the location declared in Outputs.
-7. If the room's `Done when` checklist isn't met, say so explicitly. Do not declare done early.
-
-## When the user asks a methodology question
-
-Invoke `/icm:help`. Don't paraphrase the docs from memory — load them.
-
-## What this skill is not
-
-- Not a framework. There is no orchestration code.
-- Not the best multi-agent system. Try to keep one agent, one workspace, structure on disk.
-- Not opinionated about your domain. The methodology works for content pipelines, research workflows, dev projects, consulting practices, anything sequential or autonomous with structured work.
+Not a framework (no orchestration code). Not the best multi-agent system — keep one agent, one workspace,
+structure on disk. Not opinionated about your domain.

@@ -59,7 +59,6 @@ A single-person content studio producing short-form educational videos. Voice is
 
 ## Maintenance
 
-- Structure changed? `/icm:remap`
-- Folder bloated? `/icm:debloat <path>`
-- Need a tool? `/icm:new-tool`
-- Question? `/icm:help`
+- Add a room / sub-room? `/icm:new`
+- Check the structure (read-only)? `/icm:assimilate`
+- Structural change? File a CR; a human disposes.

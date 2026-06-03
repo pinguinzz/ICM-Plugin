@@ -1,180 +1,108 @@
 # ICM — Interpretable Context Methodology
 
-> Folder-as-architecture for AI agents. Replaces multi-agent frameworks with a 5-layer filesystem contract any agent can read, navigate, and extend safely.
+> Folder-as-architecture for AI agents. Replaces multi-agent frameworks with a 5-layer filesystem contract
+> any agent can read, navigate, and extend safely.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-15%20passing-brightgreen)](tests/)
 [![Stdlib only](https://img.shields.io/badge/deps-python%20stdlib-lightgrey)](scripts/)
 
-A Claude Code plugin that ships:
+A deliberately **thin** Claude Code plugin:
 
-- 🗂️ **Two scaffold templates** — numbered pipeline (`01-research/` → `02-script/`...) or named workspaces (`script-lab/`, `production/`, ...).
-- 🤖 **Three skills** that auto-load by context (entering an ICM workspace, designing a multi-stage pipeline with review gates, dispatching a reviewer subagent).
-- ⌨️ **Five slash commands** (`/icm:set-up`, `/icm:remap`, `/icm:debloat`, `/icm:new-tool`, `/icm:help`).
-- 🐍 **Six Python helper scripts** (stdlib only) that do the token-heavy structural work, returning JSON the agent reasons over.
-- 📜 **Methodology docs** (LAYERS, CONVENTIONS, STAGE-CONTRACT, ROUTING) as the source of truth — no paraphrasing.
-- 🧪 **15 tests** that exercise the scripts against a real example workspace.
+- 🛡️ **One guardrail skill** (`icm`) — auto-loads on entering an ICM workspace; carries the 5 layers, the
+  base rules, and the invariants.
+- 🤝 **One primitive** (`dispatch-subagent`) — spawn a subagent that enters as a generic ICM agent and
+  self-routes to a room (worker mode) or runs an auto-review pre-pass (reviewer mode).
+- ⌨️ **Two commands** — `/icm:new` (create a workspace / department / room / sub-room) and
+  `/icm:assimilate` (convert a folder to ICM, or read-only integrity-check an existing one).
+- 🐍 **One stdlib checker** (`scripts/icm_check.py`) — enforces the Invariants; `/icm:assimilate` runs it.
+- 📜 **Methodology docs** (`docs/`: LAYERS, CONVENTIONS, ROOM-CONTRACT, ROUTING) as the source of truth.
+- 🧪 **Tests** that run the checker against a demo workspace + temp fixtures.
 
-Inspired by the [ICM paper](https://arxiv.org/abs/2603.16021) and the [original Interpreted-Context-Methodology repo](https://github.com/RinDig/Interpreted-Context-Methdology).
-
----
+Inspired by the [ICM paper](https://arxiv.org/abs/2603.16021) and the
+[original Interpreted-Context-Methodology repo](https://github.com/RinDig/Interpreted-Context-Methdology).
 
 ## What is ICM?
 
-Most "AI agents" you see in production are not autonomous — they are prompts + orchestration code (Python, JS, whatever) that sequence a single model through a workflow. The AI is ~10% of the system; the rest is engineering scaffolding.
-
-**ICM replaces that scaffolding with folders and markdown files.** The folder structure IS the orchestration. A single agent navigates it, loading only the context relevant to the current step. No frameworks. No agent classes. No DAGs to maintain.
+Most "AI agents" are prompts + orchestration code that sequence a single model through a workflow. ICM
+replaces that scaffolding with **folders and markdown**. The folder structure IS the orchestration: one
+agent navigates it, loading only the context relevant to the current step. No frameworks, no DAGs.
 
 ### The five layers
 
 | Layer | File | Job |
 |---|---|---|
-| 0 | `AGENTS.md` (+ stubs `CLAUDE.md`, `GEMINI.md`, `.cursorrules`) | Global identity, routing |
+| 0 | `AGENTS.md` (+ stubs `CLAUDE.md`/`GEMINI.md`/`.cursorrules`) | Identity, routing, base rules |
 | 1 | root `CONTEXT.md` | Workspace overview |
-| 2 | stage `CONTEXT.md` | Inputs / Process / Outputs |
-| 3 | `references/`, `_config/`, `shared/` | Stable rules — read-only during a run |
-| 4 | `output/`, `drafts/`, `builds/` | Per-run artifacts — only write target |
+| 2 | each dept/room/sub-room `CONTEXT.md` | The contract |
+| 3 | each `docs/` | Stable rules + memory — read-only during a run |
+| 4 | `projects/<run>/...` or room-local `workbench-<id>/` | Per-run artifacts — the only write target |
 
-Full detail in [`docs/LAYERS.md`](docs/LAYERS.md).
-
-### Why this is agent-agnostic
-
-`AGENTS.md` is the canonical file. `CLAUDE.md`, `GEMINI.md`, and `.cursorrules` are one-line stubs that just say "See AGENTS.md". Any agent's native loader picks up the pointer; the contract itself lives in one place.
-
----
+Full detail: [`docs/LAYERS.md`](docs/LAYERS.md). A workspace can be flat or clustered into **departments**,
+and a room can nest **sub-rooms** (recursion by need).
 
 ## Install (Claude Code)
 
-```bash
-# In Claude Code:
+```
 /plugin install https://github.com/pinguinzz/ICM-Plugin
 ```
 
-The plugin auto-registers:
-- three skills (`icm`, `new-pipeline`, `dispatch-subagent`)
-- the five `/icm:*` slash commands
-
-## Use it without Claude Code
-
-The scripts and templates are plain files. Use them from any shell:
-
-```bash
-# Scaffold a new ICM workspace from the pipeline template
-python icm-marketplace/scripts/icm_scaffold.py --template pipeline --target ./my-workspace
-
-# Detect / audit an existing workspace
-python icm-marketplace/scripts/icm_detect.py ./my-workspace
-python icm-marketplace/scripts/icm_audit.py ./my-workspace
-
-# Regenerate the routing table from current folder reality
-python icm-marketplace/scripts/icm_remap.py ./my-workspace --write
-
-# Propose archival of bloat (dry-run by default)
-python icm-marketplace/scripts/icm_debloat.py ./my-workspace
-
-# Add a new skill (tool) and wire it into the routing table
-python icm-marketplace/scripts/icm_register_tool.py \
-    --workspace ./my-workspace \
-    --tool-name web-search \
-    --tool-description "Search the web for sources" \
-    --wire-into "research"
-```
-
-Any AGENTS.md-aware agent (Codex CLI, Cursor, others) can then enter the workspace and follow the contract.
-
----
+Registers two skills (`icm`, `dispatch-subagent`) and two commands (`/icm:new`, `/icm:assimilate`).
 
 ## Skills
 
 | Skill | Purpose |
 |---|---|
-| `icm:icm` | Main meta-skill — auto-loads on entering an ICM workspace. Carries the 5-layer rules, invariants, stage contract, and reviewer cross-room marker pattern. Detects nested ICM (workspace inside meta-workspace) so the agent reads the parent `AGENTS.md` first. |
-| `icm:new-pipeline` | Pattern for multi-stage pipelines with granular review gates (configurable per gate: `human` / `auto` / `agent`). Covers sub-staged stages, sidecar `revisao.json`, granular rejection that doesn't cascade, think-vs-execute contract, plan-before-generate, tier-based cost control, and subagent dispatch. Use when `/icm:set-up pipeline` is too simple for your workflow. |
-| `icm:dispatch-subagent` | Generic subagent dispatch for auto-review pre-pass. Tier-aware model selection (haiku/sonnet/opus) based on `retorno_esperado`. Subagent reads via absolute paths, writes only `revisao_provisoria.md` (transitory), then main agent applies/discards and records in sidecar. |
+| `icm` | Guardrail meta-skill — auto-loads on entering an ICM workspace. The 5 layers, base rules, invariants, nested-ICM detection, and the two commands. |
+| `dispatch-subagent` | Spawn a subagent that enters as a generic ICM agent and self-routes. **Worker** (do real work in a room, e.g. a gated edit via the maintenance room) or **reviewer** (transitory auto-review pre-pass). Model scales to the work's value. |
 
-## Slash commands
+## Commands
 
 | Command | What it does |
 |---|---|
-| `/icm:set-up` | Scaffolds a new workspace OR assimilates an existing folder into the 5-layer structure. Asks: blank vs assimilate; pipeline vs workspaces. |
-| `/icm:remap` | Walks the tree, regenerates the routing table in root `AGENTS.md`, validates pointer integrity. Dry-runs first; asks before writing. |
-| `/icm:debloat` | Flags oversized CONTEXTs, dead outputs, duplicate references, superseded drafts. Archives (never deletes) on confirmation. |
-| `/icm:new-tool` | Creates a new SKILL.md scoped to a workspace/stage and wires it into the relevant routing-table row. |
-| `/icm:help` | Answers methodology questions grounded in the plugin's `docs/`. No paraphrasing. |
+| `/icm:new` | Create new structure — workspace, department, room, or sub-room. Backbone-locked intake; scaffolds from `templates/parts/` into the fixed skeleton. Additive only. |
+| `/icm:assimilate` | Read-only, plan-mode. Convert a non-ICM folder (emits a conversion plan) or integrity-check an ICM one (grills the structure, runs `icm_check.py`, reports, emits a fix plan). Never mutates. |
 
----
+## Use it without Claude Code
+
+```
+# Check any workspace against the Invariants
+python scripts/icm_check.py /path/to/workspace            # human-readable
+python scripts/icm_check.py /path/to/workspace --json     # machine-readable
+python scripts/icm_check.py /path/to/workspace --strict   # warnings fail too
+```
+
+The templates and docs are plain files any AGENTS.md-aware agent can use.
 
 ## Repo layout
 
 ```
 icm-marketplace/
-├── .claude-plugin/plugin.json  Claude Code plugin manifest
-├── AGENTS.md                   the plugin's own agent contract
-├── skills/
-│   ├── icm/SKILL.md            main meta-skill — auto-loads on entering an ICM workspace
-│   ├── new-pipeline/SKILL.md   pattern for multi-stage pipelines with granular review gates
-│   └── dispatch-subagent/SKILL.md  generic subagent dispatch for auto-review pre-pass
-├── commands/                   five /icm:* slash commands
-├── scripts/                    Python helpers (stdlib only)
-│   ├── _lib.py                 shared helpers
-│   ├── icm_detect.py
-│   ├── icm_audit.py
-│   ├── icm_scaffold.py
-│   ├── icm_remap.py
-│   ├── icm_debloat.py
-│   └── icm_register_tool.py
-├── templates/
-│   ├── pipeline/               populated 3-stage content-creator example (numbered)
-│   ├── workspaces/             populated 3-workspace content-creator example (named)
-│   ├── parts/                  atomic templates (CONTEXT.md, AGENTS.md, tool-SKILL.md)
-│   └── stubs/                  one-line CLAUDE.md / GEMINI.md / .cursorrules pointers
-├── docs/                       methodology source of truth
-│   ├── LAYERS.md
-│   ├── CONVENTIONS.md
-│   ├── STAGE-CONTRACT.md
-│   └── ROUTING.md
-├── examples/
-│   └── content-creator-demo/   real scaffolded workspace used by tests
-└── tests/
-    └── test_scripts.py         15 tests, stdlib only
+├── .claude-plugin/plugin.json
+├── AGENTS.md                      the plugin's own agent contract
+├── skills/{icm,dispatch-subagent}/SKILL.md
+├── commands/{new,assimilate}.md
+├── scripts/icm_check.py           single stdlib checker
+├── templates/parts/               root-AGENTS · workspace-CONTEXT · dept-CONTEXT · room-CONTEXT · tool-SKILL
+├── templates/stubs/               one-line CLAUDE/GEMINI/.cursorrules pointers
+├── docs/                          LAYERS · CONVENTIONS · ROOM-CONTRACT · ROUTING
+├── examples/content-creator-demo/ checker fixture
+└── tests/test_scripts.py
 ```
-
----
 
 ## Run the tests
 
-```bash
+```
 python -m unittest discover tests
 ```
 
-Expected: `Ran 15 tests in ~3s. OK`.
-
----
-
 ## Design principles
 
-- **One stage, one job.**
-- **Plain text is the only interface.**
-- **Layer 3 (references) is read-only during a run; Layer 4 (output) is the only write target.**
-- **Naming conventions replace databases.**
-- **The structure documents itself** — `/icm:remap` regenerates routing from folder reality.
+- **One room, one job. Plain text is the only interface.**
+- **Layer 3 is read-only during a run; the product layer is the only write target.**
+- **Agents drop markers; a script owns machine state. No structure mutation without a CR.**
+- **One canonical home per fact. Naming conventions replace databases.**
 
-Full list: [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md) (15 rules).
-
----
-
-## Comparison: ICM vs framework approach
-
-| Task | Framework (CrewAI, LangChain) | ICM |
-|---|---|---|
-| Change stage order | Edit code, redeploy | Rename folders |
-| Modify a prompt | Edit agent config | Edit markdown |
-| Add/remove stage | Write class, update orchestrator | Add/delete folder |
-| Inspect state | Add logging, build dashboard | Open folder |
-| Hand off to teammate | Document setup, deps | Copy folder |
-| Who can edit | Developer | Anyone with a text editor |
-
----
+Full list: [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md).
 
 ## License
 
@@ -182,5 +110,6 @@ MIT. See [LICENSE](LICENSE).
 
 ## Acknowledgments
 
-- ICM methodology: Jake Van Clief & David McDermott — original [paper](https://arxiv.org/abs/2603.16021) and [repo](https://github.com/RinDig/Interpreted-Context-Methdology).
-- This plugin reorganizes their methodology into a Claude Code-installable artifact and adds tooling (audit, remap, debloat, tool registration, tests).
+- ICM methodology: Jake Van Clief & David McDermott — [paper](https://arxiv.org/abs/2603.16021) and
+  [repo](https://github.com/RinDig/Interpreted-Context-Methdology).
+- This plugin distills their methodology into a thin, installable Claude Code artifact.

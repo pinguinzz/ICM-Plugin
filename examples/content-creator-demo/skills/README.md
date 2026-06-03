@@ -1,11 +1,7 @@
 # Workspace Skills
 
-This folder holds skills wired into this specific workspace. Skills here are loaded only when the routing table calls for them — not globally.
+This folder holds skills wired into this specific workspace. Skills here are loaded only when the room's
+`CONTEXT.md` calls for them — not globally.
 
-To add a skill, run `/icm:new-tool`. The command will:
-
-1. Generate a `SKILL.md` with proper frontmatter.
-2. Place it in the right sub-folder.
-3. Register it in the relevant routing-table row.
-
-Do not edit skills by hand without re-running `/icm:remap` after.
+To add a skill, run `/icm:new` (scope: a tool/skill) or author a `SKILL.md` from the plugin's
+`templates/parts/tool-SKILL.md`, declare it in the room's `tools.json`, and vendor it with skills-sync.
