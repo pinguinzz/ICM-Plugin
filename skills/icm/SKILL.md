@@ -1,12 +1,12 @@
 ---
 name: icm
-description: Use whenever you enter a folder that follows the Interpretable Context Methodology (ICM) — recognizable by an `AGENTS.md` or `CONTEXT.md` at the root, numbered department or room folders (`0-`, `1-`, `02.1-`...), or a per-folder `docs/` factory layer. Also triggers when the user asks to set up, assimilate, audit, or extend an ICM workspace, or mentions "ICM", "folder architecture", "room contract", "department", "routing table", or "sub-room". Loads the 5-layer rules, the base rules every agent must follow, and the `/icm:new` + `/icm:assimilate` commands.
+description: Use whenever you enter a folder that follows the Interpretable Context Methodology (ICM) — recognizable by an `AGENTS.md` or `CONTEXT.md` at the root, numbered department or room folders (`01-`, `1-`, `02.1-`...), or a per-folder `docs/` layer. Also triggers when the user asks to set up, assimilate, audit, or extend an ICM workspace, or mentions "ICM", "folder architecture", "room contract", "department", "routing table", or "sub-room". Loads the 5-layer rules, the base rules every agent must follow.
 ---
 
 # ICM — Interpretable Context Methodology
 
 You are operating inside (or about to operate on) an ICM workspace. ICM replaces multi-agent frameworks
-with filesystem structure: a single agent navigates a tree of folders and markdown files that tell it
+with filesystem structure: a agent navigates a tree of folders and markdown files that tell it
 where to go, what to read, and where to write. **Do not break the structure.**
 
 ## The three base rules (always)

@@ -2,7 +2,7 @@
 
 The room contract **is** the room's `CONTEXT.md`. There is no separate contract file. The agent reads it
 and knows exactly what to load, what to produce, and where to put the result. Routing only — no reference
-content lives here (that's Layer 3). Keep it under 80 lines.
+content lives here (that's Layer 3). Keep it short and concise ~80 lines, more than that, consider migrating info into the docs.
 
 ## The shape
 
@@ -46,21 +46,21 @@ N. Drop `_handoff`; if gate=human, `_awaiting-human`; save output to the run fol
 <what the next room consumes; the marker dropped>.
 
 ## Boundaries
-Writes only its run output + `docs/memory/`. Drops markers; never writes machine state. **NUNCA modifica**
-(never touches): <other rooms, other runs, Layer 3 during a run, the canonical docs without a CR>.
+Writes only its run output + `docs/memory/`. Drops markers; never writes machine state.
+**NEVER modify** (never touches): <other rooms, other runs, Layer 3 during a run, the canonical docs without a CR>.
 
-## Skills
+## Skills/plugins
 <from this room's tools.json, if any>.
 ```
 
 ## Why these sections
 
 - **Inputs** make context-loading explicit — the agent doesn't guess what to read.
-- **Process** is a recipe a human could follow without the agent. If you can't write it as steps, the room
+- **Process** is a recipe a human could follow without the agent. If you can't write it as individual steps, the room
   does too much (split it).
 - **Checkpoints / Audit** put human steering and a quality gate where they belong (creative work).
 - **Outputs / Done-when / Hand-off** define the artifact and when the room is finished.
-- **Boundaries** — the never-empty "NUNCA modifica" line is what prevents one room from corrupting another.
+- **Boundaries** — the never-empty "NEVER modify" line is what prevents one room from corrupting another.
 
 ## What NOT to put here
 

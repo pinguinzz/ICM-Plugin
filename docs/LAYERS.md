@@ -1,8 +1,8 @@
 # The 5 Layers
 
 ICM organizes context as a hierarchy. Each layer answers one question, lives in its own file, and is
-loaded only when the task needs it. Less irrelevant context = sharper model output (prevention, not
-compression).
+loaded only when the task needs it. Less irrelevant context = sharper model output 
+Key is selected information, not compression of information. Keep L3 files atomical and referenced to be loaded when needed only.
 
 | Layer | Name | Question it answers | File / Folder | Typical size | Changes |
 |---|---|---|---|---|---|
@@ -15,15 +15,14 @@ compression).
 ## Why layers
 
 If an agent loads everything in the project, it spends tokens on irrelevant context and the relevant
-context gets buried ("lost in the middle"). If it loads only the right layers for the current job, it
-stays sharp. Each navigation step narrows the window.
+context gets buried ("lost in the middle"). Agents retain better the information the get at the start of the session, and the latest informations they got.
+If it loads only the right layers for the current job as it needs it, it stays sharp. Each navigation step mid work resharp the context window.
 
 ## The split that matters most: Layer 3 vs Layer 4
 
 - **Layer 3 is the factory.** Stable rules, voice guides, conventions, memory. Read-only *during* a run;
   edit it *between* runs.
-- **Layer 4 is the product.** The artifact this run produces. Write and discard freely.
-
+- **Layer 4 is the product.** The artifact each run produces. Write as needed and prefer versionating than discard.
 Mixing them is the most common ICM mistake.
 
 ## Departments, rooms, sub-rooms
@@ -33,13 +32,13 @@ folders that group related rooms). A **room** is one specialized capability; a r
 **sub-rooms** (`NN.n-<name>`) when a subprocess genuinely ramifies — recursion is allowed *by need*, with
 no fixed depth cap. Every department / room / sub-room is a Layer-2 node with its own `CONTEXT.md` + `docs/`.
 
-By convention `NN.0` is the QA / auto-review sub-room (it runs *last*, despite the number); `NN.1+` are
+By convention `NN.0` is the QA / auto-review sub-room (it runs every checkpoint, despite the number); `NN.1+` are
 productive sub-rooms.
 
 ## How agents enter
 
 ```
-AGENTS.md (L0)
+AGENTS.md (L0) — identity + base rules
   └─> CONTEXT.md (L1) — routing table picks one target
        └─> <dept>/CONTEXT.md (L2) — if a department, sub-routes to a room
             └─> <dept>/<NN-room>/CONTEXT.md (L2) — the room contract
@@ -49,5 +48,5 @@ AGENTS.md (L0)
 
 ## Token budget
 
-A well-built ICM workspace lets one agent specialize per room by reading ~5k tokens instead of ~40k. The
-model is the same; only the context changes.
+A well-built ICM workspace lets one agent specialize per room by reading ~5k tokens instead of ~40k. The model is the same; only the context changes.
+A well structured pipeline loads context when it is needed, not before. Atomical context files (L3), and structured descriptions an map trees (L2) is how we do this. 

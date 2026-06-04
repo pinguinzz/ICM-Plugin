@@ -4,8 +4,8 @@ description: Convert an existing folder into an ICM workspace, OR integrity-chec
 
 # /icm:assimilate
 
-Two paths, one rule: **read-only**. `/icm:assimilate` inspects, grills, and writes a **plan**. It never
-moves, renames, deletes, or edits a single file. Execution is a separate, human-gated step.
+Two paths, one rule: **read-only**. `/icm:assimilate` inspects, grills, and writes a **plan**. It does not
+move, rename, delete, or edit a single file. Execution is a separate, human-gated step.
 
 ## What you (the agent) do
 
@@ -14,6 +14,11 @@ moves, renames, deletes, or edits a single file. Execution is a separate, human-
 
 2. **Determine the path** (`$ARGUMENTS` or cwd) and **detect ICM**: is there an `AGENTS.md` at the root,
    plus the layer signature (numbered rooms / per-folder `CONTEXT.md` / `docs/`)? Branch:
+
+3. **Read the canon** before authoring: `$ROOT/docs/CONVENTIONS.md` (Invariants/Guidelines) +
+   `$ROOT/docs/ROOM-CONTRACT.md` (the contract shape) + `$ROOT/docs/LAYERS.md`.
+
+4. Study the structure being assimilated, 
 
 ### Path A — already ICM → integrity-check
 
@@ -35,15 +40,22 @@ moves, renames, deletes, or edits a single file. Execution is a separate, human-
 ### Path B — not yet ICM → conversion plan
 
 3b. Walk the existing tree (Glob/LS). Build a one-page summary of what's there.
-4b. **Grill toward a 5-layer mapping** — propose which existing folders become L0/L1/L2/L3/L4, and surface
+Then read enough to understand what it is, what it does, how it could become an ICM work space
+
+4b. **Relentlessly rill toward a 5-layer mapping** — propose which existing folders become L0/L1/L2/L3/L4, and surface
    the common assimilation snags (don't act on them, plan them):
    - `AGENTS.md` that just redirects to another spec file → plan to merge it into the spec.
    - code repo / `package.json` at root, an external data store (Drive/NAS junction), multi-tool config
      pollution (`.cursor/`, `.codex/`…), `agents/<role>/` folders that map to rooms.
    - stale path references in any existing `CONTEXT.md`.
+   - Or anything else that could conflict with the ICM.
+
+
 5b. **Emit a conversion plan** (`assimilate-plan.md`): the proposed layer mapping + the ordered steps to
    reach it (scaffold `AGENTS.md`/stubs, author room contracts, declare work patterns, wire routing).
    Reference the plugin's templates. **Do not create or move any file.**
+
+6b. Ask to call for a `/icm:new` to start assimilating all the learnings and knoledge grilled in the plan. Create a new structure from scratch. Do not modify anything in the original folder, create a new one and copy everything to it.
 
 ## Invariants
 

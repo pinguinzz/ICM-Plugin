@@ -1,8 +1,6 @@
 # Routing — the spine of an ICM workspace
 
-The routing table lives in the workspace's root **`CONTEXT.md`** (L1 = maps + where to go). Root
-`AGENTS.md` (L0) says what this place is and how to enter it, then points here. It tells the agent: for
-THIS kind of task, go HERE. Departments carry their own sub-routing tables in their `CONTEXT.md`.
+Root `AGENTS.md` (L0) says what this place is, what it does and how to enter it, then points to the routing table that lives in the workspace's root **`CONTEXT.md`** (L1 = maps + where to go). It tells the agent: for *THIS* kind of task, go *HERE*. Departments carry their own sub-routing tables in their `CONTEXT.md`.
 
 ## The shape
 
