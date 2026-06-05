@@ -45,11 +45,12 @@ productive agents never run this — only maintenance ops do.
 
 6. **Scaffold from templates** into the fixed skeleton:
    - workspace → `root-AGENTS.md` + `workspace-CONTEXT.md` + `stubs/*`, **plus the maintenance dept**:
-     copy `$ROOT/templates/maintenance/` to `<workspace>/maintenance/`, vendor the canon as the C5 fallback
-     (`$ROOT/docs/CONVENTIONS.md`→`maintenance/docs/conventions.md`, `LAYERS.md`→`architecture.md`,
-     `ROOM-CONTRACT.md` + `ROUTING.md` alongside), and copy `$ROOT/scripts/icm_check.py`→`<workspace>/scripts/`.
-     This is the maintenance-first fallback (Q2): the skill is the source of truth; the vendored copy is read
-     only when the skill isn't loaded.
+     copy `$ROOT/templates/maintenance/` to `<workspace>/maintenance/`, vendor the four canon docs as the C5
+     fallback into `maintenance/docs/` with lowercase names — `$ROOT/docs/CONVENTIONS.md`→`conventions.md`,
+     `LAYERS.md`→`architecture.md`, `ROOM-CONTRACT.md`→`room-contract.md`, `ROUTING.md`→`routing.md` — and copy
+     `$ROOT/scripts/icm_check.py`→`<workspace>/scripts/`. (State/markers are covered in `conventions.md`
+     Invariant 5; there is no separate state-model doc.) This is the maintenance-first fallback (Q2): the
+     skill is the source of truth; the vendored copy is read only when the skill isn't loaded.
    - department → `dept-CONTEXT.md` + its `docs/`.
    - room/sub-room → `room-CONTEXT.md` + `docs/` + a `tools.json` (the canonical tooling model — entries with
      `toolname`/`tool-path`/`when-to-use`/`how-to-use`, paths relative to workspace root; tools live in the

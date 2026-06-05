@@ -13,8 +13,8 @@
 | Source | File/Location | Section/Scope | Why |
 |--------|--------------|---------------|-----|
 | Tools | `tools.json` | Full file | what this room may call (read FIRST) |
-| Canon | `../docs/conventions.md` · `architecture.md` · `state-model.md` | Full | rules + skeleton (full read — heavy tier) |
-| Contract shape | the canon `ROOM-CONTRACT.md` + `templates/parts/room-CONTEXT.md` | Full | the fixed room shape |
+| Canon | `../docs/conventions.md` · `architecture.md` | Full | rules + skeleton + state/markers (full read — heavy tier) |
+| Contract shape | `../docs/room-contract.md` | Full | the fixed room shape |
 | CR | `../docs/pipeline-change-requests.md` | the approved CR | authority for change-existing |
 
 ## Create-new mode (stages, run in order)

@@ -16,6 +16,6 @@
 - Bend an Invariant (`../../docs/conventions.md`).
 
 ## Keep it in shape
-- `CONTEXT.md` stays < 80 lines, follows the canon `ROOM-CONTRACT.md`.
+- `CONTEXT.md` stays < 80 lines, follows the canon `../../docs/room-contract.md`.
 - A file over ~200 lines → don't grow it; hand to `../../janitor/` (split via CR).
 - Re-run `scripts/icm_check.py`; log in `../../docs/changelog.md` (minor+double-checked).
