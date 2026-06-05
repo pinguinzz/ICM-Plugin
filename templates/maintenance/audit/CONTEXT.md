@@ -8,8 +8,8 @@
 | Source | File/Location | Section/Scope | Why |
 |--------|--------------|---------------|-----|
 | Tools | `tools.json` | Full file | what this room may call (read FIRST) |
-| Canon | `../docs/conventions.md` | "Invariants" | the rules to check against |
-| Skeleton | `../docs/architecture.md` | Full file | the fixed structure |
+| Canon | `../docs/CONVENTIONS.md` | "Invariants" | the rules to check against |
+| Skeleton | `../docs/LAYERS.md` | Full file | the fixed structure |
 | Memory | `docs/memory/acknowledged-exceptions.md` | Full file | what the human already flagged OK (suppress these) |
 | Target | `<path being audited>` | Full subtree | what to inspect |
 
@@ -34,7 +34,7 @@ A report listing only NEW non-conformances (acknowledged ones suppressed), each 
 Findings → `../modify-workspace/` (structural) · `../janitor/` (hygiene) · `../modify-room/` (in-convention). Drops `_handoff.md`.
 
 ## Boundaries
-**READ-ONLY** — never moves/renames/edits/deletes; never writes `_state.json`; writes only its `workbench-<id>/` + `docs/memory/`. **NEVER modify** structure. Base rules: the `icm` skill · invariants: `../docs/conventions.md`.
+**READ-ONLY** — never moves/renames/edits/deletes; never writes `_state.json`; writes only its `workbench-<id>/` + `docs/memory/`. **NEVER modify** structure. Base rules: the `icm` skill · invariants: `../docs/CONVENTIONS.md`.
 
 ## Tools
 Read `tools.json` first. (Relentless grilling: the `grill-me` skill, when available.)

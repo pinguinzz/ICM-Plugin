@@ -30,7 +30,7 @@ The room's own process is updated, still in convention, checker clean, and logge
 None — or escalate to `../modify-workspace/` if the edit turned out structural.
 
 ## Boundaries
-Edits only the room it's invoked on, within convention; never touches contracts/routing/names/another room (→ modify-workspace); never edits `projects/` runs; never writes `_state.json`. Base rules: the `icm` skill · invariants: `../docs/conventions.md`.
+Edits only the room it's invoked on, within convention; never touches contracts/routing/names/another room (→ modify-workspace); never edits `projects/` runs; never writes `_state.json`. Base rules: the `icm` skill · invariants: `../docs/CONVENTIONS.md`.
 
 ## Tools
 Read `tools.json` first.

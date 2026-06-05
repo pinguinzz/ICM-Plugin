@@ -9,7 +9,7 @@
 |--------|--------------|---------------|-----|
 | Tools | `tools.json` | Full file | what this room may call (read FIRST) |
 | Procedures | `docs/procedures.md` | the matching section | how to act within invariants |
-| Canon | `../docs/conventions.md` | "Invariants" | what can't break |
+| Canon | `../docs/CONVENTIONS.md` | "Invariants" | what can't break |
 | Target | `<file(s)>` | Full | what to split / re-point / organize |
 
 ## Process
@@ -31,7 +31,7 @@ The oversized file is split + every pointer resolves (checker clean), or the cha
 None (terminal hygiene) — or a CR to `../modify-workspace/` if it crossed into structural.
 
 ## Boundaries
-Edits only docs-hygiene (split/move/repoint) within invariants; never changes a contract/routing/name without a CR; never edits `projects/` runs; never writes `_state.json`. Base rules: the `icm` skill · invariants: `../docs/conventions.md`.
+Edits only docs-hygiene (split/move/repoint) within invariants; never changes a contract/routing/name without a CR; never edits `projects/` runs; never writes `_state.json`. Base rules: the `icm` skill · invariants: `../docs/CONVENTIONS.md`.
 
 ## Tools
 Read `tools.json` first.

@@ -11,10 +11,10 @@
 ## Intent router
 | You want to… | Go to |
 |---|---|
-| Understand how the structure works / the 5 layers / how it grows | `docs/architecture.md` |
-| Know the rules (Invariants vs Guidelines) + the tooling model | `docs/conventions.md` |
+| Understand how the structure works / the 5 layers / how it grows | `docs/LAYERS.md` |
+| Know the rules (Invariants vs Guidelines) + the tooling model | `docs/CONVENTIONS.md` |
 | Know which model a room runs on | `docs/model-tiers.md` |
-| Understand state / markers / the reconciler | `docs/conventions.md` (Invariant 5) |
+| Understand state / markers / the reconciler | `docs/CONVENTIONS.md` (Invariant 5) |
 | **Create** a room / sub-room / dept, or make a **structural / major** change | `modify-workspace/` (= /new; heavy, gated) |
 | **Evolve a room's own process** in convention (cheap) | `modify-room/` |
 | Split oversized files · re-point · organize · rewire drifted pointers | `janitor/` |
@@ -25,7 +25,7 @@
 ```
 maintenance/
 ├── CONTEXT.md          this router (L2)
-├── docs/               KNOWLEDGE: architecture · conventions (Invariants + tooling + state/markers) ·
+├── docs/               KNOWLEDGE: LAYERS · CONVENTIONS (Invariants + tooling + state/markers) ·
 │                       model-tiers · changelog · pipeline-change-requests
 ├── modify-workspace/   ROOM — create new + structural/major change (heavy, gated). = /new
 ├── modify-room/        ROOM — cheap in-convention room-local edits
@@ -33,7 +33,7 @@ maintenance/
 └── audit/              ROOM — read-only conformance audit + dedupe (has memory). = /assimilate
 ```
 
-## How change is gated (Invariant 6 → `docs/conventions.md`)
+## How change is gated (Invariant 6 → `docs/CONVENTIONS.md`)
 - **Create new (additive):** `modify-workspace` drafts in `workbench-<target>/` → human gate → promote.
 - **Evolve a room (in-convention):** `modify-room` — double-check it's room-local + in-convention → apply → log.
 - **Hygiene (split / organize / re-point):** `janitor` — mechanical, within invariants → log. No CR.

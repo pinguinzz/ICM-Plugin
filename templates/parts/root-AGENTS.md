@@ -17,6 +17,9 @@ If you have the `icm` skill loaded you know the rules; otherwise read `docs/CONV
 2. **Write only to your output target** — your run folder + your own `docs/memory/`. Never another room's
    or run's folder; never edit Layer 3 during a run. Drop **markers**; a reconciler script owns machine state.
 3. **Never mutate structure.** Propose changes via `{{CR_PATH}}`; a human disposes.
+4. **A room may evolve its OWN process in place** if it stays within convention — read the `modify-room`
+   rules first (`maintenance/modify-room/docs/how-to-evolve-a-room.md`). Structural or cross-room → the
+   `modify-workspace` room (gated).
 
 ## Naming conventions
 

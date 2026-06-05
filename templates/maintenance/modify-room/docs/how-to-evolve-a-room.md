@@ -13,9 +13,9 @@
 - Change the room's Inputs/Outputs/Done-when **contract** (its I/O), its routing, or its name.
 - Touch another room, another run, or any `projects/` output.
 - Add / move / rename folders, or change how rooms interact.
-- Bend an Invariant (`../../docs/conventions.md`).
+- Bend an Invariant (`../../docs/CONVENTIONS.md`).
 
 ## Keep it in shape
-- `CONTEXT.md` stays < 80 lines, follows the canon `../../docs/room-contract.md`.
+- `CONTEXT.md` stays < 80 lines, follows the canon `../../docs/ROOM-CONTRACT.md`.
 - A file over ~200 lines → don't grow it; hand to `../../janitor/` (split via CR).
 - Re-run `scripts/icm_check.py`; log in `../../docs/changelog.md` (minor+double-checked).

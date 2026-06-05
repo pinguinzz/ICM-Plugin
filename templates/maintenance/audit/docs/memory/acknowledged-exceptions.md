@@ -12,7 +12,7 @@
 ## Acknowledged
 
 ### Same global Invariants referenced across parallel rooms
-- signature: every room's `CONTEXT.md` Boundaries points to `../docs/conventions.md`
+- signature: every room's `CONTEXT.md` Boundaries points to `../docs/CONVENTIONS.md`
 - disposition: intentional
 - reason: one-canonical-home is preserved (rooms POINT, never copy); parallel rooms legitimately share the same rules. Not drift.
 - date: (seed)

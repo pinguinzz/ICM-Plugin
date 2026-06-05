@@ -1,7 +1,7 @@
 # janitor procedures — file hygiene + pointer rewiring
 
 > Mechanical maintenance within invariants. Every procedure: (1) classify, (2) read global Invariants
-> (`../../docs/conventions.md`), (3) act within invariants or escalate to a CR, (4) re-run
+> (`../../docs/CONVENTIONS.md`), (3) act within invariants or escalate to a CR, (4) re-run
 > `scripts/icm_check.py`, (5) log in `../../docs/changelog.md`. Anything touching a contract/routing/name
 > is NOT janitor — file a CR → `../../modify-workspace/`.
 
