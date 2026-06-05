@@ -49,8 +49,8 @@ N. Drop `_handoff`; if gate=human, `_awaiting-human`; save output to the run fol
 Writes only its run output + `docs/memory/`. Drops markers; never writes machine state.
 **NEVER modify** (never touches): <other rooms, other runs, Layer 3 during a run, the canonical docs without a CR>.
 
-## Skills/plugins
-<from this room's tools.json, if any>.
+## Tools
+Read `tools.json` first — it lists this room's tools (`toolname` · `tool-path` · `when-to-use` · `how-to-use`).
 ```
 
 ## Why these sections
@@ -62,8 +62,23 @@ Writes only its run output + `docs/memory/`. Drops markers; never writes machine
 - **Outputs / Done-when / Hand-off** define the artifact and when the room is finished.
 - **Boundaries** — the never-empty "NEVER modify" line is what prevents one room from corrupting another.
 
+## Sub-rooms and the `NN.0` review
+
+A room is one capability. When a subprocess genuinely ramifies, the room nests **sub-rooms**
+(`NN.n-<name>`), each with its own `CONTEXT.md` + `docs/` — nestable by need, no depth cap. A room with
+sub-rooms carries a routing table for them in its `CONTEXT.md` (see `ROUTING.md`); a leaf room just states
+its contract.
+
+A **checkpoint review is itself a documented sub-room**, `NN.0`. It is not an inline afterthought: it has a
+`CONTEXT.md` (what it checks) and a `docs/` that states **how the review is done** — the pass conditions, the
+upstream-brief trace, what gets escalated. `NN.0` runs at every checkpoint (not only at the end), despite
+the `.0` number; `NN.1+` are the productive sub-rooms. A room's own `## Audit` table is the lightweight,
+in-room version of this; a full `NN.0` sub-room is warranted when the review itself needs steps + memory.
+
 ## What NOT to put here
 
 The voice guide, brand identity, or any reference material (lives in Layer 3, referenced from Inputs).
 Agent personality (inherited from root `AGENTS.md`). If the contract exceeds ~80 lines, you're inlining
-reference material — extract it to `docs/`.
+reference material — extract it to `docs/`. More broadly: **any workspace file over ~200 lines is flagged
+to be split via a Change Request** (the `janitor` room handles the split + re-points the references); a
+contract should never grow there in the first place.

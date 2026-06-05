@@ -1,0 +1,8 @@
+[
+  {
+    "toolname": "icm_check",
+    "tool-path": "scripts/icm_check.py",
+    "when-to-use": "After any split / re-point / organize, before declaring done — confirm every pointer still resolves.",
+    "how-to-use": "python scripts/icm_check.py   (run from workspace root; expect 0 errors)"
+  }
+]

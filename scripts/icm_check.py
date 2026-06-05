@@ -31,7 +31,7 @@ ROOM_OK = re.compile(r"^[\d.]+-[a-z0-9-]+$")
 DOCS_BAD = re.compile(r"^docs-[a-z]")                  # Invariant 3 (use docs/)
 EXCLUDE_PART = {".git", "node_modules", "__pycache__", ".claude", ".codex", ".gemini",
                 "archive", "_archive", ".example"}
-META_MARKER = re.compile(r"^\(.*\)$")                  # (here), (aqui), (ici)... — not a path
+META_MARKER = re.compile(r"^\(.*\)$")                  # (here) or its localized form in any language — not a path
 ROUTING_HEADER = re.compile(r"^\s*##+\s+Routing\s*$", re.IGNORECASE)
 TABLE_ROW = re.compile(r"^\s*\|(.+)\|\s*$")
 SEP_ROW = re.compile(r"^\s*\|[\s\-:|]+\|\s*$")

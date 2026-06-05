@@ -1,0 +1,8 @@
+[
+  {
+    "toolname": "{{TOOL_NAME}}",
+    "tool-path": "{{PATH_RELATIVE_TO_WORKSPACE_ROOT e.g. .claude/skills/<name> or scripts/<name>.py}}",
+    "when-to-use": "{{usually an explicit call of this tool in the room's workflow steps}}",
+    "how-to-use": "{{the command / args to invoke it, or how the skill is triggered}}"
+  }
+]

@@ -8,12 +8,18 @@
 
 A deliberately **thin** Claude Code plugin:
 
-- 🛡️ **One guardrail skill** (`icm`) — auto-loads on entering an ICM workspace; carries the 5 layers, the
-  base rules, and the invariants.
+- 🛡️ **One guardrail skill** (`icm`) — auto-loads on entering an ICM workspace; carries how to *detect* ICM +
+  the base rules, and **points to** the canon (loaded on demand, never inlined).
 - 🤝 **One primitive** (`dispatch-subagent`) — spawn a subagent that enters as a generic ICM agent and
-  self-routes to a room (worker mode) or runs an auto-review pre-pass (reviewer mode).
+  self-routes to a room (worker mode) or runs an auto-review pre-pass (reviewer mode). Model scales by tier.
 - ⌨️ **Two commands** — `/icm:new` (create a workspace / department / room / sub-room) and
-  `/icm:assimilate` (convert a folder to ICM, or read-only integrity-check an existing one).
+  `/icm:assimilate` (audit / convert), each a front-door to a maintenance room.
+- 🏗️ **A canonical maintenance dept** (`templates/maintenance/`) scaffolded into every workspace —
+  `modify-workspace` (create + structural change), `modify-room` (cheap in-convention edits), `janitor`
+  (file hygiene + pointer rewiring), `audit` (read-only conformance + memory). New capability is always a
+  room, never a new command.
+- 🔧 **A per-room tooling model** (`tools.json`) — tools live in a central `.claude/` store, disabled by
+  default, activated per room by path. Cost tiers in one editable `model-tiers.md` table.
 - 🐍 **One stdlib checker** (`scripts/icm_check.py`) — enforces the Invariants; `/icm:assimilate` runs it.
 - 📜 **Methodology docs** (`docs/`: LAYERS, CONVENTIONS, ROOM-CONTRACT, ROUTING) as the source of truth.
 - 🧪 **Tests** that run the checker against a demo workspace + temp fixtures.
@@ -52,15 +58,18 @@ Registers two skills (`icm`, `dispatch-subagent`) and two commands (`/icm:new`, 
 
 | Skill | Purpose |
 |---|---|
-| `icm` | Guardrail meta-skill — auto-loads on entering an ICM workspace. The 5 layers, base rules, invariants, nested-ICM detection, and the two commands. |
+| `icm` | Guardrail meta-skill — auto-loads on entering an ICM workspace. How to detect ICM, the base rules (incl. in-place room evolution), nested-ICM detection, and pointers to the commands + canon. The canon is loaded on demand, not inlined. |
 | `dispatch-subagent` | Spawn a subagent that enters as a generic ICM agent and self-routes. **Worker** (do real work in a room, e.g. a gated edit via the maintenance room) or **reviewer** (transitory auto-review pre-pass). Model scales to the work's value. |
 
 ## Commands
 
 | Command | What it does |
 |---|---|
-| `/icm:new` | Create new structure — workspace, department, room, or sub-room. Backbone-locked intake; scaffolds from `templates/parts/` into the fixed skeleton. Additive only. |
-| `/icm:assimilate` | Read-only, plan-mode. Convert a non-ICM folder (emits a conversion plan) or integrity-check an ICM one (grills the structure, runs `icm_check.py`, reports, emits a fix plan). Never mutates. |
+| `/icm:new` | Front-door to the `modify-workspace` room. Create new structure — workspace, department, room, or sub-room. Backbone-locked intake; scaffolds from `templates/` (incl. the maintenance dept on a new workspace). Additive only. |
+| `/icm:assimilate` | Front-door to the `audit` room. Read-only, plan-mode. Convert a non-ICM folder (emits a conversion plan) or integrity-check an ICM one (grills, runs `icm_check.py`, suppresses acknowledged exceptions, reports, emits a fix plan routed to the maintenance rooms). Never mutates. |
+
+Both are also reachable through the skill base as `/icm -new` / `/icm -assimilate`. Each command is one
+procedure reachable two ways — native slash command + skill-base dispatch.
 
 ## Use it without Claude Code
 
@@ -82,7 +91,8 @@ icm-marketplace/
 ├── skills/{icm,dispatch-subagent}/SKILL.md
 ├── commands/{new,assimilate}.md
 ├── scripts/icm_check.py           single stdlib checker
-├── templates/parts/               root-AGENTS · workspace-CONTEXT · dept-CONTEXT · room-CONTEXT · tool-SKILL
+├── templates/parts/               root-AGENTS · workspace-CONTEXT · dept-CONTEXT · room-CONTEXT · tool-SKILL · tools.json
+├── templates/maintenance/         the canonical maintenance dept (modify-workspace · modify-room · janitor · audit + model-tiers)
 ├── templates/stubs/               one-line CLAUDE/GEMINI/.cursorrules pointers
 ├── docs/                          LAYERS · CONVENTIONS · ROOM-CONTRACT · ROUTING
 ├── examples/content-creator-demo/ checker fixture

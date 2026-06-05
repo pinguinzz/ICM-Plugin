@@ -7,6 +7,12 @@ description: Convert an existing folder into an ICM workspace, OR integrity-chec
 Two paths, one rule: **read-only**. `/icm:assimilate` inspects, grills, and writes a **plan**. It does not
 move, rename, delete, or edit a single file. Execution is a separate, human-gated step.
 
+`/icm:assimilate` is the front-door to the **`audit`** maintenance room. On an existing workspace, route
+through `maintenance/audit/` first — read its `docs/memory/acknowledged-exceptions.md` and **suppress** any
+finding the human already marked OK (report only NEW ones). Findings get a proposed **owner** for the
+human-gated fix: structural → `modify-workspace`, hygiene/oversize/pointers → `janitor`, in-convention →
+`modify-room`. `audit` itself never mutates.
+
 ## What you (the agent) do
 
 1. **Locate the plugin.** Resolve `$ROOT` (holds `scripts/icm_check.py` + `docs/`): `$CLAUDE_PLUGIN_ROOT`
@@ -42,7 +48,7 @@ move, rename, delete, or edit a single file. Execution is a separate, human-gate
 3b. Walk the existing tree (Glob/LS). Build a one-page summary of what's there.
 Then read enough to understand what it is, what it does, how it could become an ICM work space
 
-4b. **Relentlessly rill toward a 5-layer mapping** — propose which existing folders become L0/L1/L2/L3/L4, and surface
+4b. **Relentlessly grill toward a 5-layer mapping** — propose which existing folders become L0/L1/L2/L3/L4, and surface
    the common assimilation snags (don't act on them, plan them):
    - `AGENTS.md` that just redirects to another spec file → plan to merge it into the spec.
    - code repo / `package.json` at root, an external data store (Drive/NAS junction), multi-tool config

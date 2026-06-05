@@ -1,0 +1,8 @@
+[
+  {
+    "toolname": "icm_check",
+    "tool-path": "scripts/icm_check.py",
+    "when-to-use": "Step 3 of the audit — the mechanical conformance pass (emoji, naming, docs-<name> antipattern, line caps, routing-pointer integrity).",
+    "how-to-use": "python scripts/icm_check.py   (run from workspace root; read its output and fold into the report)"
+  }
+]

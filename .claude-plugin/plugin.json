@@ -1,7 +1,7 @@
 {
   "name": "icm",
-  "version": "0.3.0",
-  "description": "Folder-as-architecture for AI agents. Replaces multi-agent frameworks with a 5-layer filesystem contract any agent can read, navigate, and extend safely. Thin: a guardrail skill, a dispatch-subagent primitive, /icm:new (create) and /icm:assimilate (convert/check), and one stdlib checker.",
+  "version": "0.4.0",
+  "description": "Folder-as-architecture for AI agents. Replaces multi-agent frameworks with a 5-layer filesystem contract any agent can read, navigate, and extend safely. Thin guardrail skill + dispatch-subagent primitive + /icm:new (create) and /icm:assimilate (audit), backed by a canonical maintenance dept (modify-workspace · modify-room · janitor · audit) scaffolded into each workspace, a per-room tools.json model, and one stdlib checker.",
   "author": {
     "name": "Leo"
   },

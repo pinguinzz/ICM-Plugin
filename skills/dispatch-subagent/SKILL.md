@@ -22,7 +22,7 @@ agent would. You do **not** pre-load its context; the frontdoor protocol does.
 ## When to invoke
 
 - You need work completed in a room other than the one you're in (and that room is the right owner).
-- `retorno_esperado`/value is high, self-assessment is low, or the output is novel → a reviewer pre-pass
+- expected value is high, self-assessment is low, or the output is novel → a reviewer pre-pass
   is worth it before the human gate.
 
 ## Do NOT invoke if
@@ -35,9 +35,10 @@ agent would. You do **not** pre-load its context; the frontdoor protocol does.
 - `mode` — `worker` | `reviewer`.
 - `room` — the target room (worker) or the path to review (reviewer), as an **absolute path** or a routing
   target the subagent can resolve from `AGENTS.md`.
-- `model` — `haiku` (default) | `sonnet` | `opus`, scaled to the work's value tier (read the workspace's
-  `config` if it declares tiers): low/medium → haiku · high → sonnet · critical → opus. Model IDs:
-  `claude-haiku-4-5-20251001` · `claude-sonnet-4-6` · `claude-opus-4-8`.
+- `model` — `haiku` (default) | `sonnet` | `opus`, scaled to the work's value tier. For a **maintenance
+  room**, the tier is canonical in `maintenance/docs/model-tiers.md` (one editable table) — read it and use
+  that room's model. Otherwise scale by value: low/medium → haiku · high → sonnet · critical → opus. Model
+  IDs: `claude-haiku-4-5-20251001` · `claude-sonnet-4-6` · `claude-opus-4-8`.
 
 ## Process
 
@@ -72,7 +73,7 @@ IF mode=reviewer (transitory):
 4. **Post-return:**
    - *Worker:* verify the markers/output landed where the room contract says; continue your loop.
    - *Reviewer:* read `{room}/review_provisional.md`, decide apply/discard, record the decision in the
-     run's review sidecar (e.g. `revisao.json`/`review.json` `auto_review[]`), **remove** the provisional
+     run's review sidecar (e.g. `review.json` `auto_review[]`), **remove** the provisional
      file, then proceed to the human gate.
 
 ## Anti-patterns

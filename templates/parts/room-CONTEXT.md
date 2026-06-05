@@ -1,7 +1,7 @@
 # {{NN-NAME}} — {{ONE_LINE_WHAT_THIS_ROOM_TRANSFORMS}}
 
 > {{SCOPE_AND_POSITION}}  <!-- position in the pipeline, or "parallel capability". -->
-<!-- A room may nest sub-rooms NN.n-<name> (recursion by need). NN.0 = QA/auto-review (runs last). -->
+<!-- A room may nest sub-rooms NN.n-<name> (recursion by need). NN.0 = QA/auto-review (runs at checkpoints). -->
 
 ## Inputs
 | Source | File/Location | Section/Scope | Why |
@@ -35,8 +35,8 @@ N. Drop `_handoff`; if gate=human, `_awaiting-human`; save output to the run fol
 {{WHAT_NEXT_ROOM_CONSUMES}}; marker dropped.
 
 ## Boundaries
-Writes only its run output + `docs/memory/`. Drops markers; never writes machine state. **NUNCA modifica**:
+Writes only its run output + `docs/memory/`. Drops markers; never writes machine state. **NEVER modify**:
 {{NEVER_TOUCHES}}.
 
-## Skills
-{{FROM_TOOLS_JSON}}
+## Tools
+Read `tools.json` first ({{TOOLS_OR_"none"}}).

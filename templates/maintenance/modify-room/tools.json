@@ -1,0 +1,8 @@
+[
+  {
+    "toolname": "icm_check",
+    "tool-path": "scripts/icm_check.py",
+    "when-to-use": "After a room-local edit, before declaring done — confirm the room still conforms.",
+    "how-to-use": "python scripts/icm_check.py   (run from workspace root; expect 0 errors)"
+  }
+]

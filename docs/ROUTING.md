@@ -46,10 +46,27 @@ Then `dept-content/CONTEXT.md` carries the inner table:
 
 Same shape, same rules, scoped to that department.
 
+## Sub-rooms (routing within a room)
+
+Routing recurses with the structure. A **room** (`NN-name`) may hold **sub-rooms** (`NN.n-<name>`), and a
+sub-room may hold its own (`NN.n.m-<name>`) — nestable by need, no depth cap. Each node carries a
+`CONTEXT.md`; a node with children carries a routing table for them, exactly like a department:
+
+```markdown
+# 02-script — write the post script
+| Frame the concept | `02.1-concept/` |
+| Write the copy    | `02.2-copy/` |
+| Review the script | `02.0-review/` |   (NN.0 = QA / auto-review)
+```
+
+The agent descends one routing hop at a time (dept → room → sub-room → …), reading each `CONTEXT.md` on the
+way and loading nothing it doesn't name. A leaf room (no children) has no inner table — it just states its
+contract.
+
 ## When to update it
 
 - A new room is added → new row. A room is renamed → update the `Go to`.
-- Keep meta rows (`(here)`) and localized markers (e.g. `(aqui)`) — they are not broken pointers.
+- Keep meta rows (`(here)`) — they answer in place; they are not broken pointers.
 
 ## Anti-patterns
 

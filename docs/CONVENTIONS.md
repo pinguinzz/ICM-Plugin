@@ -36,8 +36,9 @@ Don't mix layers. The **routing table lives in root `CONTEXT.md`** (departments 
 
 ## Guidelines (soft — adapt with a double-check)
 
-- **Line caps:** `CONTEXT.md` < ~80 lines; reference files < ~200 (split if longer). Keeps L0/L2 routing,
-  not content.
+- **Line caps:** `CONTEXT.md` < ~80 lines; reference files < ~200. A file over ~200 lines is **flagged to
+  be split via a CR** (the `janitor` room splits it and re-points the references). Keeps L0/L2 routing, not
+  content.
 - **Selective Inputs.** An Inputs table names the *section/scope* to load, not just the file — accuracy
   (avoid "lost in the middle") and cost.
 - **`NN.0` = QA / auto-review (runs on checkpoints); `NN.1+` = productive.**
@@ -51,6 +52,33 @@ Don't mix layers. The **routing table lives in root `CONTEXT.md`** (departments 
 
 - **Sequential pipeline** — centralized root `projects/<run>/<NN-room>/`; rooms hand off in order.
 - **Parallel pipeline** — room-local `workbench-<id>/` folders; capability rooms run independently, no fixed order.
+
+**Parallel runs are isolated by folder.** Two agents may work at the same time only on **separate runs** —
+each owns its own `projects/<run>/…` (sequential) or `workbench-<id>/` (parallel) folder, differentiated by
+that folder's name. **Never two agents on the same run/folder.** A consequence: the *same* rule legitimately
+vendored into several parallel rooms is intentional isolation, not drift — `audit` records it as an
+acknowledged exception rather than re-flagging it each run.
+
+## Tooling — central store + per-room `tools.json`
+
+Each room owns its **tools, scripts, and sub-rooms**. Tools are wired, not ambient:
+
+- **One tool store.** All skills / scripts / plugins / MCP servers live centrally under `<root>/.claude/`
+  — a single place to update and control them.
+- **Disabled by default.** No harness auto-loads anything; nothing is globally active unless a human
+  enables it. (ICM workspaces typically keep root settings all-`off`.)
+- **Rooms activate tools explicitly via `tools.json`.** Every room's `CONTEXT.md` says *read `tools.json`
+  first* to know which tools it has.
+- **`tools.json` is an array of entries**, each with four fields:
+  - `toolname` — what to call it.
+  - `tool-path` — path **relative to the workspace root** (so it stays portable when the tree moves).
+  - `when-to-use` — usually an explicit tool-name call in the room's workflow steps.
+  - `how-to-use` — how to invoke it (the command, the args).
+- **Model per room** (the cost tier for a dispatched subagent) is declared in the maintenance dept's
+  editable `model-tiers.md`, not hard-coded.
+
+This supersedes the older `{skills, mcps, plugins}` name-list and the "vendor each skill into `room/skills/`"
+approach — tools are referenced by path from the central store, not copied per room.
 
 ## When to break a rule
 

@@ -8,6 +8,12 @@ Author new ICM structure at any granularity. The skeleton is **fixed** — you f
 it. Intake is **relentless** but keep it **backbone-locked**: ask everything needed for the contracts, lock the skeleton,
 don't invent new conventions.
 
+`/icm:new` is the front-door to the **`modify-workspace`** maintenance room. If a workspace already exists,
+**route through its `maintenance/modify-workspace/` first** — read that room's `docs/` + memory + any open
+CRs + `model-tiers.md`, then act (it's a heavy, gated op). **Greenfield exception:** an empty target has no
+maintenance dept yet, so this command *bootstraps* it (step 6 below creates `maintenance/`). Everyday
+productive agents never run this — only maintenance ops do.
+
 ## What you (the agent) do
 
 1. **Locate the plugin.** Resolve `$ROOT` (the plugin dir, holding `templates/` + `docs/` + `scripts/`):
@@ -32,16 +38,22 @@ don't invent new conventions.
    - *workspace:* project name, one-line identity, the departments/rooms it needs, CR-inbox path, naming.
    - *department:* purpose, **work pattern** (sequential vs parallel — it must declare one), its rooms.
    - *room/sub-room:* what it transforms; **Inputs** (name the *section/scope*, not just the file);
-     Process steps; Outputs; Done-when; Boundaries (the never-empty "NUNCA modifica"); whether it needs
+     Process steps; Outputs; Done-when; Boundaries (the never-empty "NEVER modify"); whether it needs
      sub-rooms (recursion **by need** only) + a `NN.0` room for human/auto review, when and how many checkpoints.
      Tooling (skills. plugins, MCP servers); decide on what tools or what type of tools are needed to complete the tasks.
    Lock each answer before moving on. Don't fabricate Inputs or steps the user didn't give. Follow the pipeline steps.
 
 6. **Scaffold from templates** into the fixed skeleton:
-   - workspace → `root-AGENTS.md` + `workspace-CONTEXT.md` + `stubs/*`.
+   - workspace → `root-AGENTS.md` + `workspace-CONTEXT.md` + `stubs/*`, **plus the maintenance dept**:
+     copy `$ROOT/templates/maintenance/` to `<workspace>/maintenance/`, vendor the canon as the C5 fallback
+     (`$ROOT/docs/CONVENTIONS.md`→`maintenance/docs/conventions.md`, `LAYERS.md`→`architecture.md`,
+     `ROOM-CONTRACT.md` + `ROUTING.md` alongside), and copy `$ROOT/scripts/icm_check.py`→`<workspace>/scripts/`.
+     This is the maintenance-first fallback (Q2): the skill is the source of truth; the vendored copy is read
+     only when the skill isn't loaded.
    - department → `dept-CONTEXT.md` + its `docs/`.
-   - room/sub-room → `room-CONTEXT.md` + `docs/` (+ `tools.json` if it declares skills; vendor with the
-     workspace's skills-sync) (+ `NN.0-revisao/` if it earns one).
+   - room/sub-room → `room-CONTEXT.md` + `docs/` + a `tools.json` (the canonical tooling model — entries with
+     `toolname`/`tool-path`/`when-to-use`/`how-to-use`, paths relative to workspace root; tools live in the
+     central `.claude/` store, NOT vendored per room) (+ `NN.0` review sub-room if it earns one).
    Substitute every `{{PLACEHOLDER}}`. Zero-pad numbers. `docs/` (never `docs-<name>/`). No emoji.
 
 7. **Gated-pipeline pattern** (when scaffolding a pipeline department — teach + apply alongside the human, do not hand-wave):

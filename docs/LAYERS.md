@@ -32,8 +32,21 @@ folders that group related rooms). A **room** is one specialized capability; a r
 **sub-rooms** (`NN.n-<name>`) when a subprocess genuinely ramifies — recursion is allowed *by need*, with
 no fixed depth cap. Every department / room / sub-room is a Layer-2 node with its own `CONTEXT.md` + `docs/`.
 
-By convention `NN.0` is the QA / auto-review sub-room (it runs every checkpoint, despite the number); `NN.1+` are
-productive sub-rooms.
+The numbering carries the nesting, so depth is readable from the name alone:
+
+```
+dept-content/                 (department)
+  02-script/                  (room)
+    02.1-concept/             (sub-room)
+    02.2-copy/                (sub-room)
+      02.2.1-hooks/           (sub-sub-room — same rules, deeper)
+    02.0-review/              (the NN.0 review sub-room)
+```
+
+Nest only when a subprocess earns its own contract; a room that is one clean recipe stays a leaf. By
+convention `NN.0` is the QA / auto-review sub-room (it runs every checkpoint, despite the number); `NN.1+`
+are productive sub-rooms. The same rules apply identically at every depth — there is no special "sub-room
+contract," just a `CONTEXT.md` deeper in the tree.
 
 ## How agents enter
 

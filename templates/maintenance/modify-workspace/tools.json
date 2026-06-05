@@ -1,0 +1,8 @@
+[
+  {
+    "toolname": "icm_check",
+    "tool-path": "scripts/icm_check.py",
+    "when-to-use": "Validation stage (create-new), and step 4 of change-existing mode — before promote / before done.",
+    "how-to-use": "python scripts/icm_check.py   (run from workspace root; must be 0 errors before promote)"
+  }
+]

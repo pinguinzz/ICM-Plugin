@@ -30,5 +30,6 @@ description: {{ONE_LINE_DESCRIPTION_TRIGGERS_THIS_SKILL}}
 
 ## Wired into
 
-Declared in this room's `tools.json` and vendored into `skills/`. Referenced from the room's `CONTEXT.md`
-**Skills** section.
+Lives in the central store under `<root>/.claude/`; the room activates it by adding an entry to its
+`tools.json` (`toolname` · `tool-path` relative to workspace root · `when-to-use` · `how-to-use`). The
+room's `CONTEXT.md` **Tools** section tells the agent to read `tools.json` first.
